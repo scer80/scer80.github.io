@@ -1,5 +1,3 @@
----
-permalink: /readme
----
+# scer80.github.io
 
-// Your README content here
+Personal website hosted on GitHub Pages

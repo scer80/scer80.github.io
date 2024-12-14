@@ -1,18 +1,19 @@
-title: My Website
+title: The Internet was made for kittens.
 description: A personal website powered by Jekyll
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # your github.io URL will go here
-github_username: your-username
+baseurl: ""
+url: "https://scer80.github.io"
+github_username: scer80
 
 # Build settings
 markdown: kramdown
-theme: minima
+remote_theme: pages-themes/time-machine@v0.2.0
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-remote-theme
 
 exclude:
   - Gemfile
   - Gemfile.lock
   - node_modules
-  - vendor 
+  - vendor

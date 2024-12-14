@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "The Internet was made for kittens."
+title: "The Internet was made for kittens"
 permalink: /
 ---
 
