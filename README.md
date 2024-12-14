@@ -1,1 +1,5 @@
-# scer80.github.io
+---
+permalink: /readme
+---
+
+// Your README content here
