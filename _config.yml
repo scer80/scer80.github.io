@@ -6,15 +6,12 @@ github_username: scer80
 
 # Build settings
 markdown: kramdown
-remote_theme: b2a3e8/jekyll-theme-console
+remote_theme: tareqdandachi/jekyll-shell-theme
 
-# Theme specific settings
-style: dark  # This ensures dark background with light text
-listen_for_clients_preferred_style: false  # This prevents the theme from using system preferences
-
-# Header settings (optional)
-header_pages:
-  - index.md
+# Shell theme settings
+shell:
+  username: 'visitor'
+  hostname: 'kittens'
 
 plugins:
   - jekyll-feed

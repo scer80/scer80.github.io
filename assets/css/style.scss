@@ -20,39 +20,4 @@ h1, h2, h3, h4, h5, h6 {
 
 .prompt {
   color: #00ff00 !important;
-}
-
-// Your styles here
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
-}
-
-header {
-    margin-bottom: 2rem;
-}
-
-nav {
-    a {
-        margin-right: 1rem;
-        text-decoration: none;
-        color: #333;
-        
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-}
-
-main {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-footer {
-    margin-top: 2rem;
-    text-align: center;
-    color: #666;
 } 

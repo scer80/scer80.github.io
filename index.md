@@ -1,5 +1,5 @@
 ---
-layout: home
+layout: post
 title: "The Internet was made for kittens"
 permalink: /
 ---
