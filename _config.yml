@@ -6,6 +6,7 @@ github_username: scer80
 
 # Build settings
 markdown: kramdown
+theme: jekyll-shell-theme
 remote_theme: tareqdandachi/jekyll-shell-theme
 
 # Shell theme settings
