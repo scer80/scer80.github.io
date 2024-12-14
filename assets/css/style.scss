@@ -1,36 +1,49 @@
-@import "{{ site.theme }}";
+---
+---
 
-// Override shell theme colors
-body {
-  background-color: #000000 !important;
-}
-
-.container {
-  background-color: #000000 !important;
-}
-
-.content {
+/* Base styles */
+html, body {
   background-color: #000000 !important;
   color: #00ff00 !important;
+  margin: 0;
+  padding: 20px;
+  font-family: 'Courier New', Courier, monospace;
 }
 
-pre, code {
+/* Container styles */
+.container, .content, main, header, footer {
   background-color: #000000 !important;
   color: #00ff00 !important;
 }
 
-h1, h2, h3, h4, h5, h6, p, span, a {
+/* Text styles */
+h1, h2, h3, h4, h5, h6, p, span, div {
   color: #00ff00 !important;
 }
 
-.shell-prompt {
+/* Links */
+a {
   color: #00ff00 !important;
+  text-decoration: underline;
 }
 
 a:hover {
   color: #33ff33 !important;
 }
 
-.highlight {
+/* Shell prompt */
+.shell-prompt, .prompt {
+  color: #00ff00 !important;
+}
+
+/* Code blocks */
+pre, code, .highlight {
   background-color: #000000 !important;
+  color: #00ff00 !important;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Image border */
+img {
+  border-color: #00ff00 !important;
 } 
