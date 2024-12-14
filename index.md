@@ -3,6 +3,8 @@ layout: default
 title: Home
 ---
 
-# Welcome to My Website
+# The Internet was made for kittens.
 
-This is the homepage of my Jekyll-powered website. Feel free to explore! 
+<div style="text-align: center">
+    <img src="/assets/images/1x1_photo_of_a_very_cute_kitten__.png" alt="A very cute kitten" style="max-width: 100%; height: auto;">
+</div> 
