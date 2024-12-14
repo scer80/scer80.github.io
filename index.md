@@ -1,6 +1,7 @@
 ---
 layout: default
-title: Home
+title: "The Internet was made for kittens."
+permalink: /
 ---
 
 # The Internet was made for kittens.
