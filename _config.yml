@@ -1,0 +1,18 @@
+title: My Website
+description: A personal website powered by Jekyll
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # your github.io URL will go here
+github_username: your-username
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor 
