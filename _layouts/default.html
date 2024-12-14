@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} - {{ site.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    
+    <!-- Favicon support for various browsers and devices -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
+    <link rel="shortcut icon" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
+    <link rel="apple-touch-icon" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
+</head>
+<body>
+    <main>
+        {{ content }}
+    </main>
+</body>
+</html>

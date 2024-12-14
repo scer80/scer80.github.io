@@ -1,0 +1,25 @@
+title: The Internet was made for kittens
+description: A personal website powered by Jekyll
+baseurl: ""
+url: "https://scer80.github.io"
+github_username: scer80
+
+# Build settings
+markdown: kramdown
+remote_theme: tareqdandachi/jekyll-shell-theme
+
+# Shell theme settings
+shell:
+  username: 'visitor'
+  hostname: 'kittens'
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-remote-theme
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor

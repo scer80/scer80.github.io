@@ -1,0 +1,49 @@
+---
+---
+
+/* Base styles */
+html, body {
+  background-color: #000000 !important;
+  color: #00ff00 !important;
+  margin: 0;
+  padding: 20px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Container styles */
+.container, .content, main, header, footer {
+  background-color: #000000 !important;
+  color: #00ff00 !important;
+}
+
+/* Text styles */
+h1, h2, h3, h4, h5, h6, p, span, div {
+  color: #00ff00 !important;
+}
+
+/* Links */
+a {
+  color: #00ff00 !important;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #33ff33 !important;
+}
+
+/* Shell prompt */
+.shell-prompt, .prompt {
+  color: #00ff00 !important;
+}
+
+/* Code blocks */
+pre, code, .highlight {
+  background-color: #000000 !important;
+  color: #00ff00 !important;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Image border */
+img {
+  border-color: #00ff00 !important;
+}
