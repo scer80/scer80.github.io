@@ -1,23 +1,36 @@
 @import "{{ site.theme }}";
 
-// Override theme colors for terminal look
+// Override shell theme colors
 body {
+  background-color: #000000 !important;
+}
+
+.container {
+  background-color: #000000 !important;
+}
+
+.content {
   background-color: #000000 !important;
   color: #00ff00 !important;
 }
 
-a {
-  color: #00ff00 !important;
-  
-  &:hover {
-    color: #33ff33 !important;
-  }
-}
-
-h1, h2, h3, h4, h5, h6 {
+pre, code {
+  background-color: #000000 !important;
   color: #00ff00 !important;
 }
 
-.prompt {
+h1, h2, h3, h4, h5, h6, p, span, a {
   color: #00ff00 !important;
+}
+
+.shell-prompt {
+  color: #00ff00 !important;
+}
+
+a:hover {
+  color: #33ff33 !important;
+}
+
+.highlight {
+  background-color: #000000 !important;
 } 
