@@ -11,9 +11,21 @@ html, body {
 }
 
 /* Container styles */
-.container, .content, main, header, footer {
+.container, .content, main, header, footer, article, section, .post, .page, .wrapper, .site-content, .post-content, .page-content {
   background-color: #e2f7fe !important;
   color: #0066ff !important;
+}
+
+/* Terminal/shell theme overrides */
+.terminal, .terminal-window, .terminal-content, .shell, .shell-content, .window, .window-content {
+  background-color: #e2f7fe !important;
+  color: #0066ff !important;
+}
+
+/* Override all black backgrounds from theme */
+* {
+  background-color: #e2f7fe !important;
+  border-color: #0066ff !important;
 }
 
 /* Text styles */
