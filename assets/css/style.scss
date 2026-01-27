@@ -3,8 +3,8 @@
 
 /* Base styles */
 html, body {
-  background-color: #000000 !important;
-  color: #00ff00 !important;
+  background-color: #e2f7fe !important;
+  color: #0066ff !important;
   margin: 0;
   padding: 20px;
   font-family: 'Courier New', Courier, monospace;
@@ -18,7 +18,7 @@ html, body {
 
 /* Text styles */
 h1, h2, h3, h4, h5, h6, p, span, div {
-  color: #00ff00 !important;
+  color: #0066ff !important;
 }
 
 /* Links */
@@ -28,7 +28,7 @@ a {
 }
 
 a:hover {
-  color: #33ff33 !important;
+  color: #e90399 !important;
 }
 
 /* Shell prompt */
