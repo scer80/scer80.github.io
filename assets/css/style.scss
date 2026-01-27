@@ -13,7 +13,7 @@ html, body {
 /* Container styles */
 .container, .content, main, header, footer {
   background-color: #000000 !important;
-  color: #00ff00 !important;
+  color: #0066ff !important;
 }
 
 /* Text styles */
@@ -23,7 +23,7 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 
 /* Links */
 a {
-  color: #00ff00 !important;
+  color: #0066ff !important;
   text-decoration: underline;
 }
 
@@ -33,17 +33,17 @@ a:hover {
 
 /* Shell prompt */
 .shell-prompt, .prompt {
-  color: #00ff00 !important;
+  color: #0066ff !important;
 }
 
 /* Code blocks */
 pre, code, .highlight {
   background-color: #000000 !important;
-  color: #00ff00 !important;
+  color: #0066ff !important;
   font-family: 'Courier New', Courier, monospace;
 }
 
 /* Image border */
 img {
-  border-color: #00ff00 !important;
+  border-color: #0066ff !important;
 }
