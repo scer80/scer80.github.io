@@ -4,6 +4,8 @@ title: About
 permalink: /about/
 ---
 
-# About Me
+# Welcome.
 
-This is where you can write about yourself or your project. 
+<img src="/assets/images/cat-essential-20260127.jpg" alt="A very cute kitten" style="max-width: 400px; width: 100%; height: auto;">
+
+[Back to home](/)

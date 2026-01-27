@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "The Internet was made for kittens"
+title: "The Internet was made for cats."
 permalink: /
 ---
 
-# The Internet was made for kittens
+# The Internet was made for cats
 
-<img src="/assets/images/cat-essential-20260127.jpg" alt="A very cute kitten" style="max-width: 400px; width: 100%; height: auto;">
+[About me](/about/)
