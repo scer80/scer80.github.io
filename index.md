@@ -12,7 +12,7 @@ permalink: /
 
 <div style="margin-top: 10px;">
   <label for="speedSlider">Speed: <span id="speedValue">1.0</span>x</label><br>
-  <input type="range" id="speedSlider" min="0.25" max="3" step="0.25" value="1" style="width: 200px;">
+  <input type="range" id="speedSlider" min="0.25" max="5" step="0.25" value="3.0" style="width: 200px;">
 </div>
 
 <script>
