@@ -11,7 +11,7 @@ permalink: /
 </video>
 
 <div style="margin-top: 10px;">
-  <label for="speedSlider">Speed: <span id="speedValue">1.0</span>x</label><br>
+  <label for="speedSlider">Speed: <span id="speedValue">3.0</span>x</label><br>
   <input type="range" id="speedSlider" min="0.25" max="5" step="0.25" value="3.0" style="width: 200px;">
 </div>
 
@@ -24,5 +24,7 @@ permalink: /
     speedValue.textContent = this.value;
   });
 </script>
+
+[Generative Models](/contents/generative_models/generative_models.md)
 
 [About me](/about/)
