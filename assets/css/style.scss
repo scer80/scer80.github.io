@@ -59,3 +59,19 @@ pre, code, .highlight {
 img {
   border-color: #0066ff !important;
 }
+
+/* Paper style - white background, black text */
+body.paper-style,
+body.paper-style * {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #cccccc !important;
+}
+
+body.paper-style a {
+  color: #0066cc !important;
+}
+
+body.paper-style a:hover {
+  color: #004499 !important;
+}

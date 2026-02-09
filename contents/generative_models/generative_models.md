@@ -1,3 +1,7 @@
+---
+style: paper-style
+---
+
 # Generative Models
 
 [Home](/)
