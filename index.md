@@ -4,7 +4,7 @@ title: "The Internet. By Cats. For Cats."
 permalink: /
 ---
 
-# The Internet. By Cats. For Cats.
+# The Internet. Made by Cats for Cats.
 
 <video id="catVideo" loop autoplay muted playsinline style="max-width: 400px; width: 100%; height: auto;">
   <source src="/assets/video/cat3.3.mp4" type="video/mp4">
