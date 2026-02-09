@@ -1,5 +1,7 @@
 # Generative Models
 
+[Home](/)
+
 ## Score Function
 
 - Definition: $\nabla_y \log{P(y)}$
@@ -74,3 +76,5 @@ $$\nabla_y \log p(y) = \mathbb{E}[s_n(y - x) \mid y]$$
 $$\nabla_y \log p(y) = \mathbb{E}\left[\frac{x - y}{\sigma^2} \mid y\right] = \frac{\mathbb{E}[x|y] - y}{\sigma^2}$$
 
 For non-Gaussian noise (e.g., Laplacian where $s_n(n) = -\text{sign}(n)/b$), the score is nonlinear and no such simplification occurs.
+
+[Home](/)
