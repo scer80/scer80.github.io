@@ -1,3 +1,7 @@
+---
+style: paper-style
+---
+
 # Markov chain inversion is Markovian
 
 - Markov chain: $x_0 \rightarrow x_1 \rightarrow x_2$

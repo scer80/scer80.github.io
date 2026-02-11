@@ -1,3 +1,7 @@
+---
+style: paper-style
+---
+
 # Score Matching
 
 (Hyvärinen: Estimation of Non-Normalized Statistical Models by Score Matching)
