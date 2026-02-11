@@ -22,7 +22,7 @@ $$ \nabla_x \log p_{\theta}(x) = \nabla_x \log f_{\theta}(x) - \underbrace{\nabl
 $$ J(\theta) = \frac{1}{2} \int p(x) \| \nabla_x \log p(x) - \nabla_x \log f_{\theta}(x) \|^2 \, dx $$
 
 - $J(\theta) \ge 0$ for all $\theta$
-- $J(\theta^{*}) = 0 \iff p(x) = p_{\theta^{*}}(x)$
+- $J(\theta^{\*}) = 0 \Leftrightarrow p(x) = p_{\theta^{\*}}(x)$
 
 **Why $J = 0$ recovers the true model:** all terms under the integral are non-negative, so $J = 0$ implies $\nabla_x \log p(x) = \nabla_x \log f_{\theta}(x)$ everywhere, hence $\log p(x) = \log f_{\theta}(x) + C$, i.e. $p(x) = e^C f_{\theta}(x) = p_{\theta}(x)$.
 
