@@ -11,8 +11,8 @@ permalink: /
 </video>
 
 <div style="margin-top: 10px;">
-  <label for="speedSlider">Speed: <span id="speedValue">3.0</span>x</label><br>
-  <input type="range" id="speedSlider" min="0.25" max="5" step="0.25" value="3.0" style="width: 200px;">
+  <label for="speedSlider">Speed: <span id="speedValue">3.75</span>x</label><br>
+  <input type="range" id="speedSlider" min="0.25" max="5" step="0.25" value="3.75" style="width: 200px;">
 </div>
 
 <script>
