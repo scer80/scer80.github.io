@@ -22,7 +22,7 @@ $$ \nabla_x \log p_{\theta}(x) = \nabla_x \log f_{\theta}(x) - \underbrace{\nabl
 $$ J(\theta) = \frac{1}{2} \int p(x) \| \nabla_x \log p(x) - \nabla_x \log f_{\theta}(x) \|^2 \, dx $$
 
 - $J(\theta) \ge 0$ for all $\theta$
-- $J(\theta^*) = 0 \iff p(x) = p_{\theta^*}(x)$
+- $J(\theta^{*}) = 0 \iff p(x) = p_{\theta^{*}}(x)$
 
 **Why $J = 0$ recovers the true model:** all terms under the integral are non-negative, so $J = 0$ implies $\nabla_x \log p(x) = \nabla_x \log f_{\theta}(x)$ everywhere, hence $\log p(x) = \log f_{\theta}(x) + C$, i.e. $p(x) = e^C f_{\theta}(x) = p_{\theta}(x)$.
 
@@ -37,7 +37,7 @@ $$ J(\theta) = \frac{1}{2} \int p(x) \| \nabla_x \log p(x) \|^2 \, dx + \frac{1}
 
 $$ \int p(x) \sum_i \frac{1}{p(x)} \frac{\partial p(x)}{\partial x_i} \frac{\partial \log f_{\theta}(x)}{\partial x_i} \, dx = \sum_i \int \frac{\partial p(x)}{\partial x_i} \frac{\partial \log f_{\theta}(x)}{\partial x_i} \, dx $$
 
-Integration by parts ($\int f g' = fg - \int f' g$), with $f = p(x)$, $g' = \frac{\partial}{\partial x_i} \log f_\theta$:
+Integration by parts ($\int f g' = fg - \int f' g$), with $f = \frac{\partial}{\partial x_i} \log f_\theta$, $g' = \frac{\partial p}{\partial x_i}$ (so $g = p$):
 
 $$ = \sum_i \left[ \underbrace{p(x) \frac{\partial \log f_{\theta}(x)}{\partial x_i} \bigg|_{-\infty}^{\infty}}_{\to 0} - \int p(x) \frac{\partial^2 \log f_{\theta}(x)}{\partial x_i^2} \, dx \right] $$
 
