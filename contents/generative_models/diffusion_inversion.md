@@ -1,9 +1,6 @@
 ---
-style: paper-style
+layout: contents
 ---
-
-[Home](/)
-[Up](../)
 
 # Reverse-Time Drift for Diffusion SDEs
 
@@ -47,6 +44,3 @@ Divide by $-p$ and use $\frac{1}{p}\frac{\partial p}{\partial x} = \frac{\partia
 $$\boxed{f_g(x, u) = -f(x, T-u) + g^2(T-u)\, \frac{\partial}{\partial x}\log p(x, T-u)}$$
 
 The reverse drift is the negated forward drift plus a score-weighted diffusion term.
-
-[Home](/)
-[Up](../)

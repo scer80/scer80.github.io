@@ -1,9 +1,6 @@
 ---
-style: paper-style
+layout: contents
 ---
-
-[Home](/)
-[Up](../)
 
 # Score Matching
 
@@ -51,6 +48,3 @@ $$ \tilde{J}(\theta) = \int p(x) \sum_i \left[ \frac{1}{2} \left( \frac{\partial
 
 - Only requires $f_{\theta}$ and its derivatives — no $Z(\theta)$, no $p(x)$ in explicit form
 - The expectation over $p(x)$ is estimated from samples
-
-[Home](/)
-[Up](../)

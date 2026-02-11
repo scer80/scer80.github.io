@@ -1,9 +1,6 @@
 ---
-style: paper-style
+layout: contents
 ---
-
-[Home](/)
-[Up](../)
 
 The notes you provided represent a high-level summary of **Flow Matching (FM)**, a framework that generalizes and simplifies the training of generative models like **Stable Diffusion 3**. 
 
@@ -62,6 +59,3 @@ Traditional diffusion models (like SD 1.5/2.1) are stochastic; they follow a "no
 | **Objective** | Predict Noise ($\epsilon$) or Score ($\nabla \log p$) | Predict Velocity ($v$) |
 | **Assumption** | Must be Gaussian Noise | Can be arbitrary |
 | **Efficiency** | Requires many steps to handle curves | High efficiency due to straight paths |
-
-[Home](/)
-[Up](../)

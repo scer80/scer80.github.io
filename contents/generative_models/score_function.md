@@ -1,11 +1,6 @@
 ---
-style: paper-style
+layout: contents
 ---
-
-# Generative Models
-
-[Home](/)
-[Up](../)
 
 ## Score Function
 
@@ -49,6 +44,3 @@ Rearranging gives the result. $\square$
 **Why Gaussian is special:** For Gaussian noise, $s_n(n) = -n/\sigma^2$ is linear. This linearity allows the expectation to factor, yielding a direct relationship between the score and the MMSE estimator $\mathbb{E}[x \mid y]$.
 
 For non-Gaussian noise (e.g., Laplacian where $s_n(n) = -\text{sign}(n)/b$), the score is nonlinear and no such simplification occurs.
-
-[Home](/)
-[Up](../)

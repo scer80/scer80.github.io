@@ -1,9 +1,6 @@
 ---
-style: paper-style
+layout: contents
 ---
-
-[Home](/)
-[Up](../)
 
 The handwritten notes you provided describe the mathematical foundations of **Flow Matching** and **Diffusion Models**, specifically focusing on how to transition from sample-specific (conditional) dynamics to global (marginal) dynamics. This theory provides the rigorous "why" behind the formulas used in **Classifier and Classifier-Free Guidance**.
 
@@ -58,6 +55,3 @@ $$u_{guided} = u(x, t, \emptyset) + w \cdot \big( u(x, t, c) - u(x, t, \emptyset
 | **SDE Trick** | $dX_t = [u + \frac{\sigma^2}{2}\nabla \log p]dt$ | Allows you to switch between **ODE solvers** (fast) and **SDE samplers** (high quality). |
 
 **Why this matters:** Your notes show that the "marginal" model (the one that doesn't know the label) is actually just the average of all possible "conditional" models. Guidance works by pushing the model away from that "average" (unconditional) state and further toward a specific "labeled" state.
-
-[Home](/)
-[Up](../)

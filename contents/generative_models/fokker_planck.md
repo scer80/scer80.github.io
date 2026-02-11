@@ -1,9 +1,6 @@
 ---
-style: paper-style
+layout: contents
 ---
-
-[Home](/)
-[Up](../)
 
 
 ### Page 1: Foundations and Setup
@@ -79,7 +76,3 @@ This is the general **Kramers-Moyal expansion**. If only $D_1$ (drift) and $D_2$
 
 **Fokker Planck Equation**
 $$\frac{\partial p}{\partial t} = -\frac{\partial}{\partial y}[D_1(y) p] + \frac{\partial^2}{\partial y^2}[D_2(y) p]$$
-
-
-[Home](/)
-[Up](../)

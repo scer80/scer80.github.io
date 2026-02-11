@@ -1,11 +1,5 @@
 ---
-style: paper-style
+layout: contents
 ---
 
-[Home](/)
-[Up](../)
-
 # Diffusion SDE
-
-[Home](/)
-[Up](../)

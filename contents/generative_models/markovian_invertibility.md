@@ -1,9 +1,6 @@
 ---
-style: paper-style
+layout: contents
 ---
-
-[Home](/)
-[Up](../)
 
 # Markov chain inversion is Markovian
 
@@ -24,6 +21,3 @@ $$p(x_0 \mid x_1, x_2) = \frac{p(x_1, x_2 \mid x_0)\, p(x_0)}{p(x_1, x_2)}$$
 The $p(x_2 \mid x_1)$ cancels, leaving $\frac{p(x_1 \mid x_0)\, p(x_0)}{p(x_1)} = p(x_0 \mid x_1)$. $\square$
 
 **Intuition:** the future $x_2$ only "talks to" $x_0$ through $x_1$, so once you condition on $x_1$, $x_2$ is redundant. Extends by induction to longer chains.
-
-[Home](/)
-[Up](../)

@@ -1,11 +1,8 @@
 ---
-style: paper-style
+layout: contents
 ---
 
 # Generative Models
-
-[Home](/)
-[Up](../)
 
 - [Score Function](score_function)
 - [Score Matching](score_matching)
@@ -15,6 +12,3 @@ style: paper-style
 - [Reverse-Time Drift for Diffusion SDEs](diffusion_inversion.md)
 - [Guidance](guidance.md)
 - [Flow Matching](flow_matching.md)
-
-[Home](/)
-[Up](../)

@@ -75,3 +75,69 @@ body.paper-style a {
 body.paper-style a:hover {
   color: #004499 !important;
 }
+
+/* Sidebar layout */
+.sidebar-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  padding: 20px 10px 20px 0;
+  border-right: 1px solid #cccccc !important;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding-left: 14px;
+  margin: 0;
+}
+
+.sidebar > ul {
+  padding-left: 0;
+}
+
+.sidebar li {
+  margin: 4px 0;
+}
+
+.sidebar a {
+  text-decoration: none !important;
+  font-size: 0.85em;
+}
+
+.sidebar a.sidebar-current {
+  font-weight: bold;
+  color: #000000 !important;
+}
+
+.content-area {
+  flex-grow: 1;
+  padding: 0 20px;
+  min-width: 0;
+}
+
+/* Responsive: collapse sidebar on narrow screens */
+@media (max-width: 768px) {
+  .sidebar-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    position: static;
+    max-height: none;
+    border-right: none !important;
+    border-bottom: 1px solid #cccccc !important;
+    padding: 10px 0;
+  }
+  .content-area {
+    padding: 0;
+  }
+}

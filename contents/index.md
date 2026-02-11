@@ -1,11 +1,7 @@
 ---
-style: paper-style
+layout: contents
 ---
 
 # Contents
 
-[Home](/)
-
 - [Generative Models](generative_models/)
-
-[Home](/)
