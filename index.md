@@ -26,6 +26,5 @@ permalink: /
 </script>
 
 [Contents](/contents/)
-[Generative Models](/contents/generative_models/)
 
 [About me](/about/)
