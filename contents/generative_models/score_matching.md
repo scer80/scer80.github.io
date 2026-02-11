@@ -2,6 +2,9 @@
 style: paper-style
 ---
 
+[Home](/)
+[Up](../)
+
 # Score Matching
 
 (Hyvärinen: Estimation of Non-Normalized Statistical Models by Score Matching)
@@ -48,3 +51,6 @@ $$ \tilde{J}(\theta) = \int p(x) \sum_i \left[ \frac{1}{2} \left( \frac{\partial
 
 - Only requires $f_{\theta}$ and its derivatives — no $Z(\theta)$, no $p(x)$ in explicit form
 - The expectation over $p(x)$ is estimated from samples
+
+[Home](/)
+[Up](../)
