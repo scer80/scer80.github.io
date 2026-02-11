@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} - {{ site.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+    <!-- Favicon support for various browsers and devices -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
+    <link rel="shortcut icon" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
+    <link rel="apple-touch-icon" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
+
+    <!-- MathJax for LaTeX rendering -->
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body class="paper-style">
+    <div class="sidebar-layout">
+        <nav class="sidebar">
+            {% include sidebar.html items=site.data.contents_nav %}
+        </nav>
+        <main class="content-area">
+            {{ content }}
+        </main>
+    </div>
+</body>
+</html>

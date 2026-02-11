@@ -1,0 +1,22 @@
+- title: Contents
+  url: /contents/
+  children:
+    - title: Generative Models
+      url: /contents/generative_models/
+      children:
+        - title: Score Function
+          url: /contents/generative_models/score_function
+        - title: Score Matching
+          url: /contents/generative_models/score_matching
+        - title: Markovian Invertibility
+          url: /contents/generative_models/markovian_invertibility
+        - title: Fokker-Planck
+          url: /contents/generative_models/fokker_planck
+        - title: Diffusion SDE
+          url: /contents/generative_models/diffusion
+        - title: Reverse-Time Drift
+          url: /contents/generative_models/diffusion_inversion
+        - title: Guidance
+          url: /contents/generative_models/guidance
+        - title: Flow Matching
+          url: /contents/generative_models/flow_matching
