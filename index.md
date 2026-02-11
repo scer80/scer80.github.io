@@ -25,6 +25,7 @@ permalink: /
   });
 </script>
 
-[Generative Models](/contents/generative_models/generative_models.md)
+[Contents](/contents/)
+[Generative Models](/contents/generative_models/)
 
 [About me](/about/)

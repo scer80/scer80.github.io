@@ -5,6 +5,7 @@ style: paper-style
 # Generative Models
 
 [Home](/)
+[Up](../)
 
 ## Score Function
 
@@ -50,3 +51,4 @@ Rearranging gives the result. $\square$
 For non-Gaussian noise (e.g., Laplacian where $s_n(n) = -\text{sign}(n)/b$), the score is nonlinear and no such simplification occurs.
 
 [Home](/)
+[Up](../)
