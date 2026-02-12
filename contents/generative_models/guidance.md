@@ -120,6 +120,7 @@ At inference, you extrapolate between the two:
 $$u_{guided} = u(x, t, \emptyset) + w \cdot \big( u(x, t, c) - u(x, t, \emptyset) \big)$$
 
 ### Summary Comparison
+
 | Concept | Theory (from your notes) | Application (Guidance) |
 | :--- | :--- | :--- |
 | **Vector Field** | $u_t(x) = \mathbb{E}[u_t(x \mid z)]$ | Used in **CFG** to interpolate between $u_{uncond}$ and $u_{cond}$. |
