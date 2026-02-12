@@ -2,63 +2,6 @@
 layout: contents
 ---
 
-## Vector Fields (ODE Perspective)
-
-### **Conditional Vector Field:**
-
-For a fixed target $z$, the conditional vector field $u_t(x \mid z)$ generates a probability path that pushes $X_t$ toward $z$:
-
-$$X_t = (1-t)X_0 + tz, \quad u_t(x|z) = \frac{z - x}{1 - t}$$
-
-$$\frac{d}{dt} X_t = u_t(X_t|z) \implies X_t \sim p_t(\cdot|z), \quad p_0(\cdot|z) = p_{init},\; p_1(\cdot|z) = \delta_z$$
-
-###  **Marginal Vector Field**
-
-To generate any data point from the full distribution $p_{data}$, we use an "averaged" vector field:
-
-$$u_t(x) = \int u_t(x|z) \frac{p_t(x|z)p_{data}(z)}{p_t(x)} dz = \int u_t(x|z) p_t(z|x) dz = \mathbb{E}_{p_t(z|x)} [u_t(x|z)]$$
-
-where the second equality follows from Bayes' rule: $p_t(z|x) = \frac{p_t(x|z)\,p_{data}(z)}{p_t(x)}$.
-
-#### Side Note: Continuity Equation
-
-- No proof is provided, this can be checked by using a cube around $x$ that is squeezed to zero. 
-- Conditional flow continuity equation: $\partial_t p_t(x \mid z) = -\nabla_x \cdot (p_t(x \mid z) u_t(x \mid z))$.
-- Marginal flow continuity equation: $\partial_t p_t(x) = -\nabla_x \cdot (p_t(x) u_t(x))$.
-
-**Proof:** 
-
-By definition, $p_t(x) = \int p_t(x \mid z) p_{data}(z) dz$. Differentiating w.r.t. $t$:
-
-$$\partial_t p_t(x) = \int \partial_t p_t(x \mid z) p_{data}(z) dz. $$
-
-Applying the conditional continuity equation:
-
-$$\partial_t p_t(x) = -\int \nabla_x \cdot (p_t(x \mid z) u_t(x \mid z)) p_{data}(z) dz.$$
-
-
-We multiply and divide by $p_t(x)$:
-
-$$
-\partial_t p_t(x) = -\int \nabla_x \cdot \left( p_t(x)\dfrac{p_t(x|z) p_{data}(z)}{p_t(x)} u_t(x|z) \right) dz.
-$$
-
-Extract the $\nabla_x$:
-
-$$
-\partial_t p_t(x) = -\nabla_x \cdot \int p_t(x)\dfrac{p_t(x|z) p_{data}(z)}{p_t(x)} u_t(x|z) dz.
-$$
-
-Extract $p_t(x)$:
-
-$$
-\partial_t p_t(x) = -\nabla_x \cdot p_t(x) \underbrace{\int \dfrac{p_t(x|z) p_{data}(z)}{p_t(x)} u_t(x|z)  dz}_{u_t(x)}.
-$$
-
-This is exactly the marginal continuity equation $\partial_t p_t(x) = -\nabla_x \cdot (p_t(x) u_t(x))$ and therefore:
-$$\boxed{u_t(x) = \int \dfrac{p_t(x|z) p_{data}(z)}{p_t(x)} u_t(x|z)  dz}.$$
-
-
 ## Scores (Diffusion Perspective)
 
 *Note*: the role of this paragraph is still being worked on, as I do not understand its role.
@@ -72,7 +15,7 @@ For a fixed target $z$, the conditional score is $\nabla_x \log p_t(x \mid z)$.
 $$\nabla_x \log p_t(x|z) = -\frac{x - \alpha_t z}{\beta_t^2}$$
 
 - If $\alpha_t = 1-t$ and $\beta_t^2 = t(1-t)$, then $\nabla_x \log p_t(x|z) = \frac{z-x}{1-t}$, which is exactly the conditional vector field from the ODE perspective.
-- If $\alpha_1 = 1$ and $\beta_1^2 = 0$, then $p_1(x|z) = \delta_z$ i.e. the final distribution is a delta function at $z$.
+- If $\alpha_1 = 1$ and $\beta_1^2 = 0$, then $p_1(x \mid z) = \delta_z$ i.e. the final distribution is a delta function at $z$.
 
 ### **Marginal Score**
 
@@ -97,11 +40,6 @@ $$\nabla_x p_t(x) = \int p_t(x \mid z)\, \nabla_x \log p_t(x \mid z)\, p_{data}(
 Dividing by $p_t(x)$ and recognizing $\frac{p_t(x \mid z)\, p_{data}(z)}{p_t(x)} = p_t(z \mid x)$ by Bayes' rule:
 
 $$\boxed{\nabla_x \log p_t(x) = \int p_t(z \mid x)\, \nabla_x \log p_t(x \mid z)\, dz = \mathbb{E}_{p_t(z|x)} [\nabla_x \log p_t(x|z)]}$$
-
-## The SDE Extension Trick
-This theorem connects the deterministic Flow (ODE) to the stochastic Diffusion (SDE). It states that an SDE can follow the same probability path as an ODE if the drift is adjusted using the score:
-*   **SDE Formula:** $dX_t = \left[ u_t(X_t) + \frac{\sigma_t^2}{2} \nabla \log p_t(X_t) \right] dt + \sigma_t dW_t$
-*   **Fokker-Planck Equation:** Confirms the density evolution $\partial_t p_t = -\text{div}(p_t u_t)$.
 
 
 ### Connecting to Guidance
