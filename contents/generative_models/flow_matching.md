@@ -20,7 +20,7 @@ To generate any data point from the full distribution $p_{data}$, we use an "ave
 
 $$v_t(x) = \int v_t(x|z) \frac{p_t(x|z)p_{data}(z)}{p_t(x)} dz = \int v_t(x|z) p_t(z|x) dz = \mathbb{E}_{p_t(z|x)} [v_t(x|z)]$$
 
-where the second equality follows from Bayes' rule: $p_t(z|x) = \frac{p_t(x|z)\,p_{data}(z)}{p_t(x)}$.
+where the second equality follows from Bayes' rule: $p_t(z \mid x) = \frac{p_t(x \mid z)\,p_{data}(z)}{p_t(x)}$.
 
 #### Side Note: Continuity Equation
 
@@ -76,7 +76,7 @@ The natural objective is to regress a neural network $v_\theta$ directly onto th
 
 $$\mathcal{L}_{MFM}(\theta) = \mathbb{E}_{t,\, x_t} \left[ \| v_\theta(x_t, t) - v_t(x_t) \|^2 \right]$$
 
-This is intractable: evaluating $v_t(x_t) = \mathbb{E}_{p_t(z|x_t)}[v_t(x_t|z)]$ requires integrating over the full data distribution.
+This is intractable: evaluating $v_t(x_t) = \mathbb{E}_{p_t(z \mid x_t)}[v_t(x_t \mid z)]$ requires integrating over the full data distribution.
 
 ### Conditional Flow Matching (practical)
 
@@ -90,9 +90,11 @@ The two objectives have the same minimizer. For any squared-error objective:
 
 $$\arg\min_f \mathbb{E}\left[\|f(x) - y\|^2\right] = \mathbb{E}[y \mid x]$$
 
-**Proof.** By the law of total expectation, $\mathbb{E}[\|f(x) - y\|^2] = \mathbb{E}_x\big[\mathbb{E}_{y|x}[\|f(x) - y\|^2]\big]$. We can minimize pointwise for each $x$. Setting $c = f(x)$:
+**Proof.** By the law of total expectation, $\mathbb{E}[\|f(x) - y\|^2] = \mathbb{E}_x\big[\mathbb{E}_{y \mid x}[\|f(x) - y\|^2]\big]$. 
 
-$$\mathbb{E}_{y|x}[\|c - y\|^2] = \|c\|^2 - 2c \cdot \mathbb{E}[y|x] + \mathbb{E}[\|y\|^2|x]$$
+We can minimize pointwise for each $x$. Setting $c = f(x)$:
+
+$$\mathbb{E}_{y \mid x}[\|c - y\|^2] = \|c\|^2 - 2c \cdot \mathbb{E}[y \mid x] + \mathbb{E}[\|y\|^2|x]$$
 
 Differentiating w.r.t. $c$: $2c - 2\mathbb{E}[y|x] = 0$, so $f^*(x) = \mathbb{E}[y \mid x]$. $\square$
 
