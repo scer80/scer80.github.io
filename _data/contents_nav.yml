@@ -1,3 +1,5 @@
+- title: Home
+  url: /
 - title: Contents
   url: /contents/
   children:

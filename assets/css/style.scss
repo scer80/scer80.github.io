@@ -120,11 +120,11 @@ body.paper-style a:hover {
 
 /* Collapsible sidebar */
 .sidebar li > ul {
-  display: none;
+  display: none !important;
 }
 
 .sidebar li.expanded > ul {
-  display: block;
+  display: block !important;
 }
 
 .sidebar-toggle {
