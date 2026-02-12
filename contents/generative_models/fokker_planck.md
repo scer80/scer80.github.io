@@ -75,4 +75,6 @@ $$\frac{\partial p(y, t \mid x)}{\partial t} = \sum_{n=1}^{\infty} (-1)^n \frac{
 This is the general **Kramers-Moyal expansion**. If only $D_1$ (drift) and $D_2$ (diffusion) are non-zero, it is the:
 
 **Fokker Planck Equation**
-$$\frac{\partial p}{\partial t} = -\frac{\partial}{\partial y}[D_1(y) p] + \frac{\partial^2}{\partial y^2}[D_2(y) p]$$
+$$\frac{\partial p(y, t \mid x)}{\partial t} = -\frac{\partial}{\partial y}[D_1(y)\, p(y, t \mid x)] + \frac{\partial^2}{\partial y^2}[D_2(y)\, p(y, t \mid x)]$$
+
+$p(y, t \mid x)$ = "started at $x$ at time $0$, what's the density of being at $y$ at time $t$?" The second argument is elapsed time (not absolute), thanks to time homogeneity.

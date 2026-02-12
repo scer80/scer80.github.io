@@ -32,5 +32,13 @@
             {{ content }}
         </main>
     </div>
+    <script>
+    // Auto-expand sidebar path to current page
+    var cur = document.querySelector('.sidebar a.sidebar-current');
+    while (cur) {
+      if (cur.tagName === 'LI') cur.classList.add('expanded');
+      cur = cur.parentElement;
+    }
+    </script>
 </body>
 </html>

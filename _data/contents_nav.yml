@@ -13,7 +13,7 @@
         - title: Fokker-Planck
           url: /contents/generative_models/fokker_planck
         - title: Diffusion SDE
-          url: /contents/generative_models/diffusion
+          url: /contents/generative_models/diffusion_sde
         - title: Reverse-Time Drift
           url: /contents/generative_models/diffusion_inversion
         - title: Guidance

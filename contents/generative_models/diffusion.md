@@ -1,5 +1,0 @@
----
-layout: contents
----
-
-# Diffusion SDE

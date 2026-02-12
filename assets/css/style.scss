@@ -118,6 +118,28 @@ body.paper-style a:hover {
   color: #000000 !important;
 }
 
+/* Collapsible sidebar */
+.sidebar li > ul {
+  display: none;
+}
+
+.sidebar li.expanded > ul {
+  display: block;
+}
+
+.sidebar-toggle {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.6em;
+  width: 1em;
+  transition: transform 0.15s;
+  user-select: none;
+}
+
+.sidebar li.expanded > .sidebar-toggle {
+  transform: rotate(90deg);
+}
+
 .content-area {
   flex-grow: 1;
   padding: 0 20px;
