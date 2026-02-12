@@ -22,29 +22,52 @@ SDE: $dx=f(x(t),t)dt+g(x(t), t)dW$.
 
 ## Fokker-Planck Equation for the Wiener Process
 
-The SDE describes a **single trajectory** $x(t)$. The Fokker-Planck equation (FPE) describes how the **probability density** $p(x,t)$ of an ensemble of such trajectories evolves over time.
+We connect the SDE $dx = f(x,t)\,dt + g(x,t)\,dW_t$ to the Kramers-Moyal / Fokker-Planck machinery (see [Fokker-Planck derivation](fokker_planck.md)).
 
-Given the SDE $dx = f(x,t)\,dt + g(x,t)\,dW_t$, the corresponding FPE is:
+### Short-time transition density $p(y, \Delta t \mid x)$
 
-$$\frac{\partial p(x,t)}{\partial t} = -\frac{\partial}{\partial x}\Big[f(x,t)\,p(x,t)\Big] + \frac{1}{2}\frac{\partial^2}{\partial x^2}\Big[g(x,t)^2\,p(x,t)\Big]$$
+Over a small interval $\Delta t$, starting at $x$, the SDE gives:
 
-- **First term** (drift): $-\frac{\partial}{\partial x}[f \cdot p]$ — probability flows along the drift $f$. This is a continuity/transport equation.
-- **Second term** (diffusion): $\frac{1}{2}\frac{\partial^2}{\partial x^2}[g^2 \cdot p]$ — noise spreads probability out. This is a diffusion equation.
+$$y = x + f(x)\,\Delta t + g(x)\,\sqrt{\Delta t}\;\xi, \qquad \xi \sim \mathcal{N}(0,1)$$
 
-**Derivation sketch** (via Ito's Lemma): For any smooth test function $\phi(x)$, compute $d\mathbb{E}[\phi(x_t)]$ using Ito's Lemma:
+So $y \mid x$ is Gaussian with mean $x + f\Delta t$ and variance $g^2 \Delta t$:
 
-$$d\phi = \left(f\,\frac{\partial \phi}{\partial x} + \frac{1}{2}g^2\,\frac{\partial^2 \phi}{\partial x^2}\right)dt + g\,\frac{\partial \phi}{\partial x}\,dW_t$$
+$$p(y, \Delta t \mid x) = \frac{1}{\sqrt{2\pi\, g(x)^2\, \Delta t}}\;\exp\!\left(-\frac{\big(y - x - f(x)\,\Delta t\big)^2}{2\,g(x)^2\,\Delta t}\right)$$
 
-Taking expectations ($\mathbb{E}[dW_t]=0$) and integrating by parts twice to move derivatives from $\phi$ onto $p$ yields the FPE.
+### Computing the Kramers-Moyal coefficients $D_n$
 
-**Special case — pure Wiener process** ($f=0$, $g=1$, i.e. $dx = dW_t$):
+Recall: $D_n(x) = \frac{1}{n!}\lim_{\Delta t \to 0}\frac{1}{\Delta t}\int (y-x)^n\, p(y, \Delta t \mid x)\, dy = \frac{1}{n!}\lim_{\Delta t \to 0}\frac{1}{\Delta t}\,\mathbb{E}[(y-x)^n]$.
 
-$$\frac{\partial p}{\partial t} = \frac{1}{2}\frac{\partial^2 p}{\partial x^2}$$
+From the transition density above, $y - x = f\,\Delta t + g\,\sqrt{\Delta t}\;\xi$, so all moments reduce to Gaussian moments of $\xi$.
 
-This is just the **heat equation**. Starting from $p(x,0)=\delta(x)$, the solution is $p(x,t) = \frac{1}{\sqrt{2\pi t}}\exp\!\left(-\frac{x^2}{2t}\right)$ — a Gaussian that spreads as $\sqrt{t}$.
+**$D_1$ (drift):**
 
-**Multivariate extension**: For $d\mathbf{x} = \mathbf{f}(\mathbf{x},t)\,dt + \mathbf{G}(\mathbf{x},t)\,d\mathbf{W}_t$:
+$$D_1 = \lim_{\Delta t \to 0}\frac{1}{\Delta t}\,\mathbb{E}\big[f\,\Delta t + g\sqrt{\Delta t}\;\xi\big] = \lim_{\Delta t \to 0}\frac{1}{\Delta t}\big[f\,\Delta t + 0\big] = f(x)$$
 
-$$\frac{\partial p}{\partial t} = -\sum_i \frac{\partial}{\partial x_i}[f_i\,p] + \frac{1}{2}\sum_{i,j}\frac{\partial^2}{\partial x_i \partial x_j}\Big[(\mathbf{G}\mathbf{G}^\top)_{ij}\,p\Big]$$
+**$D_2$ (diffusion):**
 
-where $\mathbf{G}\mathbf{G}^\top$ is the diffusion tensor.
+$$D_2 = \frac{1}{2}\lim_{\Delta t \to 0}\frac{1}{\Delta t}\,\mathbb{E}\big[(f\,\Delta t + g\sqrt{\Delta t}\;\xi)^2\big]$$
+
+Expand the square:
+
+$$= \frac{1}{2}\lim_{\Delta t \to 0}\frac{1}{\Delta t}\Big[\underbrace{f^2(\Delta t)^2}_{\to 0} + \underbrace{2fg\,(\Delta t)^{3/2}\,\mathbb{E}[\xi]}_{=0} + g^2\,\Delta t\,\underbrace{\mathbb{E}[\xi^2]}_{=1}\Big] = \frac{1}{2}g(x)^2$$
+
+### $D_n$ for $n > 2$: exactly zero, not merely neglected
+
+Expand $(y-x)^n = (f\,\Delta t + g\sqrt{\Delta t}\;\xi)^n$ by the binomial theorem. A generic term is:
+
+$$\binom{n}{k}(f\,\Delta t)^{n-k}(g\sqrt{\Delta t})^k\,\xi^k$$
+
+which carries a factor $(\Delta t)^{n - k/2}$. After dividing by $\Delta t$ (as in the $D_n$ definition), the power of $\Delta t$ is $n - k/2 - 1$. For this to survive $\Delta t \to 0$, we need:
+
+$$n - k/2 - 1 \leq 0 \quad\Longrightarrow\quad k \geq 2(n-1)$$
+
+But $k \leq n$, so we need $2(n-1) \leq n$, i.e. $n \leq 2$.
+
+**Therefore $D_n = 0$ exactly for all $n > 2$.** The Fokker-Planck equation is **not** a truncation of the Kramers-Moyal expansion — it is the exact, complete description for any Ito SDE driven by Gaussian noise.
+
+### The Fokker-Planck equation
+
+Substituting $D_1 = f$ and $D_2 = \tfrac{1}{2}g^2$ into the Kramers-Moyal expansion:
+
+$$\frac{\partial p(y, t \mid x)}{\partial t} = -\frac{\partial}{\partial y}\big[f(y)\, p(y,t \mid x)\big] + \frac{1}{2}\frac{\partial^2}{\partial y^2}\big[g(y)^2\, p(y,t \mid x)\big]$$
