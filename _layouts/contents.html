@@ -25,10 +25,12 @@
 </head>
 <body class="paper-style">
     <div class="sidebar-layout">
-        <nav class="sidebar">
-            {% include sidebar.html items=site.data.contents_nav %}
+        <nav class="sidebar" id="sidebar">
+            <button class="sidebar-collapse-btn" id="sidebarBtn" title="Toggle sidebar">&#9776;</button>
+            <div class="sidebar-content">
+                {% include sidebar.html items=site.data.contents_nav %}
+            </div>
         </nav>
-        <button class="sidebar-collapse-btn" onclick="document.querySelector('.sidebar-layout').classList.toggle('sidebar-hidden')" title="Toggle sidebar">&#9776;</button>
         <main class="content-area">
             {{ content }}
         </main>
@@ -40,6 +42,10 @@
       if (cur.tagName === 'LI') cur.classList.add('expanded');
       cur = cur.parentElement;
     }
+    // Sidebar collapse toggle
+    document.getElementById('sidebarBtn').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+    });
     </script>
 </body>
 </html>
