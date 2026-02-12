@@ -28,6 +28,7 @@
         <nav class="sidebar">
             {% include sidebar.html items=site.data.contents_nav %}
         </nav>
+        <button class="sidebar-collapse-btn" onclick="document.querySelector('.sidebar-layout').classList.toggle('sidebar-hidden')" title="Toggle sidebar">&#9776;</button>
         <main class="content-area">
             {{ content }}
         </main>
