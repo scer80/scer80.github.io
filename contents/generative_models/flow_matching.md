@@ -102,7 +102,11 @@ Differentiating w.r.t. $c$:
 
 $2c - 2\mathbb{E}[y \mid x] = 0$, so $f^*(x) = \mathbb{E}[y \mid x]$. $\square$
 
-Applied here: the minimizer of $\mathcal{L}_{CFM}$ predicts $\mathbb{E}[v_t(x_t \mid x_1) \mid x_t] = \mathbb{E}_{p_t(x_1 \mid x_t)}[v_t(x_t \mid x_1)]$, which is exactly the marginal vector field $v_t(x_t)$. So training on the easy conditional objective recovers the intractable marginal vector field.
+Applied here: the minimizer of $\mathcal{L}_{CFM}$ predicts
+
+$$\mathbb{E}[v_t(x_t \mid x_1) \mid x_t] = \mathbb{E}_{p_t(x_1 \mid x_t)}[v_t(x_t \mid x_1)] = v_t(x_t)$$
+
+So training on the easy conditional objective recovers the intractable marginal vector field.
 
 ## Rectified Flows (Linear Flows)
 
