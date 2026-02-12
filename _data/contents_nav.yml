@@ -20,5 +20,7 @@
           url: /contents/generative_models/diffusion_inversion
         - title: Guidance
           url: /contents/generative_models/guidance
+        - title: ODE-SDE Equivalence
+          url: /contents/generative_models/ode_sde_equivalence
         - title: Flow Matching
           url: /contents/generative_models/flow_matching

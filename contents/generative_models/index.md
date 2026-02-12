@@ -11,4 +11,5 @@ layout: contents
 - [Diffusion SDE](diffusion_sde.md)
 - [Reverse-Time Drift for Diffusion SDEs](diffusion_inversion.md)
 - [Guidance](guidance.md)
+- [ODE-SDE Equivalence](ode_sde_equivalence.md)
 - [Flow Matching](flow_matching.md)
