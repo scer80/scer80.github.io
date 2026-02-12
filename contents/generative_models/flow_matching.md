@@ -90,15 +90,19 @@ The two objectives have the same minimizer. For any squared-error objective:
 
 $$\arg\min_f \mathbb{E}\left[\|f(x) - y\|^2\right] = \mathbb{E}[y \mid x]$$
 
-**Proof.** By the law of total expectation, $\mathbb{E}[\|f(x) - y\|^2] = \mathbb{E}_x\big[\mathbb{E}_{y \mid x}[\|f(x) - y\|^2]\big]$. 
+**Proof.** By the law of total expectation:
+
+$$\mathbb{E}[\|f(x) - y\|^2] = \mathbb{E}_x\big[\mathbb{E}_{y \mid x}[\|f(x) - y\|^2]\big]$$
 
 We can minimize pointwise for each $x$. Setting $c = f(x)$:
 
 $$\mathbb{E}_{y \mid x}[\|c - y\|^2] = \|c\|^2 - 2c \cdot \mathbb{E}[y \mid x] + \mathbb{E}[\|y\|^2|x]$$
 
-Differentiating w.r.t. $c$: $2c - 2\mathbb{E}[y|x] = 0$, so $f^*(x) = \mathbb{E}[y \mid x]$. $\square$
+Differentiating w.r.t. $c$:
 
-Applied here: the minimizer of $\mathcal{L}_{CFM}$ predicts $\mathbb{E}[v_t(x_t | x_1) \mid x_t] = \mathbb{E}_{p_t(x_1|x_t)}[v_t(x_t|x_1)]$, which is exactly the marginal vector field $v_t(x_t)$. So training on the easy conditional objective recovers the intractable marginal vector field.
+$2c - 2\mathbb{E}[y \mid x] = 0$, so $f^*(x) = \mathbb{E}[y \mid x]$. $\square$
+
+Applied here: the minimizer of $\mathcal{L}_{CFM}$ predicts $\mathbb{E}[v_t(x_t \mid x_1) \mid x_t] = \mathbb{E}_{p_t(x_1 \mid x_t)}[v_t(x_t \mid x_1)]$, which is exactly the marginal vector field $v_t(x_t)$. So training on the easy conditional objective recovers the intractable marginal vector field.
 
 ## Rectified Flows (Linear Flows)
 
@@ -147,7 +151,7 @@ Differentiating the path w.r.t. $t$:
 
 $$v_t(x_t \mid x_1) = \frac{dx_t}{dt} = \dot{\alpha}_t x_1 + \dot{\sigma}_t \epsilon$$
 
-This is the conditional vector field for DDIM's path. The marginal vector field follows by the same marginalization as before: $v_t(x_t) = \mathbb{E}_{p_t(x_1|x_t)}[v_t(x_t|x_1)]$.
+This is the conditional vector field for DDIM's path. The marginal vector field follows by the same marginalization as before: $v_t(x_t) = \mathbb{E}_{p_t(x_1 \mid x_t)}[v_t(x_t \mid x_1)]$.
 
 ### Noise prediction = velocity prediction (reparameterization)
 
