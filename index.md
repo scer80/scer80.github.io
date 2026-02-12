@@ -19,6 +19,7 @@ permalink: /
   const video = document.getElementById('catVideo');
   const slider = document.getElementById('speedSlider');
   const speedValue = document.getElementById('speedValue');
+  video.playbackRate = slider.value;
   slider.addEventListener('input', function() {
     video.playbackRate = this.value;
     speedValue.textContent = this.value;
