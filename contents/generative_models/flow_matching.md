@@ -135,27 +135,35 @@ The key idea of Rectified Flow is an iterative straightening procedure:
 
 After rectification, the marginal paths are nearly straight, enabling high-quality generation in very few ODE steps (e.g., 1–10 instead of 50+). This is the approach used in **Stable Diffusion 3**.
 
-## DDIM as a Flow
+## Diffusion Models as Flows (DDIM)
 
-DDIM's deterministic sampler ($\eta = 0$) is a specific instance of flow matching — it uses a **Gaussian probability path** instead of a linear one.
+### The Gaussian probability path (common to all diffusion models)
 
-### The Gaussian probability path
-
-DDIM defines the conditional path via:
+All diffusion models define a conditional probability path via:
 
 $$x_t = \alpha_t x_1 + \sigma_t \epsilon, \quad \epsilon \sim \mathcal{N}(0, I)$$
 
 where $\alpha_t$ and $\sigma_t$ are the noise schedule (with $\alpha_0 = 0,\; \sigma_0 = 1$ at the noise end and $\alpha_1 = 1,\; \sigma_1 = 0$ at the data end). This means $p_t(x \mid x_1) = \mathcal{N}(x;\, \alpha_t x_1,\, \sigma_t^2 I)$.
 
-Compare with Rectified Flow's linear path: $x_t = (1-t)x_0 + t x_1$. Both are valid probability paths, but the Gaussian path is **curved** in general (since $\alpha_t$ and $\sigma_t$ need not be linear in $t$).
+This path is **curved** in general (since $\alpha_t$ and $\sigma_t$ need not be linear in $t$), unlike Rectified Flow's straight path $x_t = (1-t)x_0 + t x_1$.
+
+### What makes DDIM a flow
+
+Standard diffusion models sample via an **SDE** (stochastic). DDIM ($\eta = 0$) is the insight that you can instead sample via a **deterministic ODE** — i.e., a flow. The ODE is obtained by setting the noise to zero in the [ODE-SDE equivalence](ode_sde_equivalence.md):
+
+$$\frac{dx_t}{dt} = v_t(x_t)$$
+
+This is exactly a flow matching problem with the Gaussian probability path above. DDIM was the first practical demonstration that diffusion models contain a deterministic flow.
 
 ### The conditional velocity
 
-Differentiating the path w.r.t. $t$:
+Differentiating the Gaussian path w.r.t. $t$:
 
 $$v_t(x_t \mid x_1) = \frac{dx_t}{dt} = \dot{\alpha}_t x_1 + \dot{\sigma}_t \epsilon$$
 
-This is the conditional vector field for DDIM's path. The marginal vector field follows by the same marginalization as before: $v_t(x_t) = \mathbb{E}_{p_t(x_1 \mid x_t)}[v_t(x_t \mid x_1)]$.
+The marginal vector field follows by the same marginalization as before:
+
+$$v_t(x_t) = \mathbb{E}_{p_t(x_1 \mid x_t)}[v_t(x_t \mid x_1)]$$
 
 ### Noise prediction = velocity prediction (reparameterization)
 
@@ -175,7 +183,7 @@ These are all linear functions of each other given $(x_t, t)$. The training obje
 
 ### Summary
 
-DDIM is flow matching with a Gaussian (curved) probability path. Rectified Flow replaces this with a linear (straight) path. The straighter the path, the fewer ODE steps needed at inference.
+Diffusion models define a Gaussian (curved) probability path. DDIM reveals that sampling can be done deterministically as an ODE — a flow. Rectified Flow replaces the curved path with a straight one, reducing the number of ODE steps needed at inference.
 
 ## Flow Matching vs. Traditional Diffusion
 

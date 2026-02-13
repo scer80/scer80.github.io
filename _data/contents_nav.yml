@@ -18,9 +18,13 @@
           url: /contents/generative_models/diffusion_sde
         - title: Reverse-Time Drift
           url: /contents/generative_models/diffusion_inversion
+        - title: Diffusion Models
+          url: /contents/generative_models/diffusion_models
         - title: Guidance
           url: /contents/generative_models/guidance
         - title: ODE-SDE Equivalence
           url: /contents/generative_models/ode_sde_equivalence
         - title: Flow Matching
           url: /contents/generative_models/flow_matching
+        - title: Scratchpad
+          url: /contents/generative_models/scratchpad

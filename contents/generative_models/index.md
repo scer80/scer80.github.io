@@ -10,6 +10,8 @@ layout: contents
 - [Fokker-Planck](fokker_planck.md)
 - [Diffusion SDE](diffusion_sde.md)
 - [Reverse-Time Drift for Diffusion SDEs](diffusion_inversion.md)
+- [Diffusion Models](diffusion_models.md)
 - [Guidance](guidance.md)
 - [ODE-SDE Equivalence](ode_sde_equivalence.md)
 - [Flow Matching](flow_matching.md)
+- [Scratchpad](scratchpad.md)
