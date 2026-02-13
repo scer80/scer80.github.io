@@ -12,7 +12,16 @@ $$x_t = \alpha_t x_1 + \sigma_t \epsilon, \quad \epsilon \sim \mathcal{N}(0, I)$
 
 where $\alpha_t$ and $\sigma_t$ are the noise schedule (with $\alpha_0 = 0,\; \sigma_0 = 1$ at the noise end and $\alpha_1 = 1,\; \sigma_1 = 0$ at the data end). This means $p_t(x \mid x_1) = \mathcal{N}(x;\, \alpha_t x_1,\, \sigma_t^2 I)$.
 
+The **forward process** (noising) transitions from $p_1(x) = p_{data}(x)$ to $p_0(x) = \mathcal{N}(0, I)$. This can be done in one step (since $p_t(x \mid x_1)$ is Gaussian for all $t$) or discretized into multiple steps.
+
+The role of the diffusion model is to learn the **reverse process** — going from noise ($t=0$) back to data ($t=1$) while traversing the same intermediate distributions $p_t$. The reverse process can be expressed as an SDE (see [Diffusion inversion](diffusion_inversion.md)):
+
+$$dx_t = \left[v_t(x_t) + \frac{\sigma_t^2}{2} \nabla \log p_t(x_t)\right] dt + \sigma_t\, dW_t$$
+
+where $v_t$ is the marginal velocity field obtained by marginalizing the conditional velocity $v_t(x_t \mid x_1)$ over $p_t(x_1 \mid x_t)$, and the score term $\nabla \log p_t$ corrects for the added noise (see [ODE-SDE equivalence](ode_sde_equivalence.md)).
+
 This path is **curved** in general, since $\alpha_t$ and $\sigma_t$ need not be linear in $t$.
+
 
 ## The Conditional Velocity
 
