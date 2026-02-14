@@ -31,25 +31,37 @@ $$
 \frac{\partial q}{\partial u}(x, u) = \frac{\partial}{\partial x}[p(x, T-u)\,f(x, T-u)] - \frac{1}{2}g^2(T-u) \frac{\partial^2 p(x, T-u)}{\partial x^2}
 $$
 
+Rewrite in terms of $q(x,u)$:
+
+$$
+\frac{\partial q}{\partial u}(x, u) = \frac{\partial}{\partial x}[q(x, u)\,f(x, T-u)] - \frac{1}{2}g^2(T-u) \frac{\partial^2 q(x, u)}{\partial x^2} \tag{1}
+$$
+
 ## Solving for the Reverse Drift
 
-Assume the reverse process has an unknown drift $f_q$ with the same diffusion $g$:
-$$\frac{\partial q}{\partial u}(x, u) = -\frac{\partial}{\partial x}[q(x, u)\, f_q(x, u)] + \frac{1}{2}g^2(u) \frac{\partial^2 q(x, u)}{\partial x^2}.$$
+Assume the reverse process has an unknown drift $f_q$ with the same diffusion coefficient $g(T-u)$ (at reverse time $u$ the noise level matches the forward process at $t = T-u$):
+$$\frac{\partial q}{\partial u}(x, u) = -\frac{\partial}{\partial x}[q(x, u)\, f_q(x, u)] + \frac{1}{2}g^2(T-u) \frac{\partial^2 q(x, u)}{\partial x^2}. \tag{2}$$
 
-Equate the two expressions for $\frac{\partial q}{\partial u}$ (using $q = p(x, T-u)$):
-$$-\frac{\partial}{\partial x}[p\, f_g] + \frac{1}{2}g^2 \frac{\partial^2 p}{\partial x^2} = \frac{\partial}{\partial x}[p\, f] - \frac{1}{2}g^2 \frac{\partial^2 p}{\partial x^2}$$
+Equate the two expressions (1) and (2) for $\frac{\partial q}{\partial u}(x,u)$:
+$$\frac{\partial}{\partial x}[q(x, u)\,f(x, T-u)] - \frac{1}{2}g^2(T-u) \frac{\partial^2 q(x, u)}{\partial x^2} = -\frac{\partial}{\partial x}[q(x, u)\, f_q(x, u)] + \frac{1}{2}g^2(T-u) \frac{\partial^2 q(x, u)}{\partial x^2}$$
 
-Rearrange:
-$$-\frac{\partial}{\partial x}[p\, f_g] = \frac{\partial}{\partial x}[p\, f] - g^2 \frac{\partial^2 p}{\partial x^2}$$
+The $\frac{1}{2}g^2(T-u)\,\partial^2_x q$ terms combine. Rearrange:
+
+$$
+\frac{\partial}{\partial x}[q(x, u)\, f_q(x, u)] = -\frac{\partial}{\partial x}[q(x, u)\,f(x, T-u)] + g^2(T-u) \frac{\partial^2 q(x, u)}{\partial x^2}$$
 
 The RHS is a single $\frac{\partial}{\partial x}$ of something:
-$$-\frac{\partial}{\partial x}[p\, f_g] = \frac{\partial}{\partial x}\left[p\, f - g^2 \frac{\partial p}{\partial x}\right]$$
+
+$$
+\frac{\partial}{\partial x}[q(x, u)\, f_q(x, u)] = -\frac{\partial}{\partial x}\left[q(x, u)\,f(x, T-u) - g^2(T-u) \frac{\partial q(x, u)}{\partial x}\right]
+$$
 
 Integrate once in $x$ (boundary terms vanish):
-$$-p\, f_g = p\, f - g^2 \frac{\partial p}{\partial x}$$
 
-Divide by $-p$ and use $\frac{1}{p}\frac{\partial p}{\partial x} = \frac{\partial}{\partial x}\log p$ (score function):
+$$q(x,u)\, f_q(x,u) = -q(x,u)\, f(x, T-u) + g^2(T-u) \frac{\partial q(x, u)}{\partial x}$$
 
-$$\boxed{f_g(x, u) = -f(x, T-u) + g^2(T-u)\, \frac{\partial}{\partial x}\log p(x, T-u)}$$
+Divide by $q$ and use $\frac{1}{q}\frac{\partial q}{\partial x} = \frac{\partial}{\partial x}\log q$ (score function):
+
+$$\boxed{f_q(x, u) = -f(x, T-u) + g^2(T-u)\, \frac{\partial}{\partial x}\log \underbrace{q(x, u)}_{p(x, T-u)}}$$
 
 The reverse drift is the negated forward drift plus a score-weighted diffusion term.
