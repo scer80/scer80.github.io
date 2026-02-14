@@ -6,7 +6,7 @@ layout: contents
 
 ## Forward Process
 
-SDE: $dx = f(x,t)\,dt + g(t)\,dw$ (scalar, $g$ depends only on time)
+Wiener process SDE: $dx = f(x,t)\,dt + g(t)\,dw$ (scalar, $g$ depends only on time)
 
 Fokker-Planck (since $g^2$ comes out of $\frac{\partial^2}{\partial x^2}$):
 

@@ -7,7 +7,7 @@ layout: contents
 
 ## Wiener Process and Ito Calculus
 
-SDE: $dx=f(x(t),t)dt+g(x(t), t)dW$.
+Wiener process SDE: $dx=f(x(t),t)dt+g(x(t), t)dW$.
 
 - $dW$ is a Wiener process or Brownian motion
     *   $W_0 = 0$ (it starts at zero).
@@ -71,3 +71,41 @@ But $k \leq n$, so we need $2(n-1) \leq n$, i.e. $n \leq 2$.
 Substituting $D_1 = f$ and $D_2 = \tfrac{1}{2}g^2$ into the Kramers-Moyal expansion:
 
 $$\frac{\partial p(y, t \mid x)}{\partial t} = -\frac{\partial}{\partial y}\big[f(y)\, p(y,t \mid x)\big] + \frac{1}{2}\frac{\partial^2}{\partial y^2}\big[g(y)^2\, p(y,t \mid x)\big]$$
+
+## Paths, differentiability, and the meaning of the SDE
+
+### Individual paths are continuous but nowhere differentiable
+
+A Wiener process $W_t$ is almost surely continuous — sample paths $t \mapsto W_t$ are well-defined continuous curves. The same holds for solutions $X_t$ of an SDE: each realization is a continuous function of time.
+
+However, these paths are **nowhere differentiable**. In an ODE, decreasing $\Delta t$ makes the ratio $\Delta X / \Delta t$ converge to the derivative $dX/dt$. In an SDE, the stochastic increment $g\,\sqrt{\Delta t}\;\xi$ contributes a term $g\,\xi / \sqrt{\Delta t}$ to that ratio, which **diverges** as $\Delta t \to 0$. No pointwise derivative exists at any $t$.
+
+### The SDE is shorthand for an integral equation
+
+Because paths are not differentiable, the notation $dX = f\,dt + g\,dW$ is not a differential equation in the classical sense. It is shorthand for the **integral equation**:
+
+$$X_t = X_0 + \int_0^t f(X_s, s)\,ds + \int_0^t g(X_s, s)\,dW_s$$
+
+The first integral is an ordinary Riemann integral. The second is the **Ito integral**, defined as a mean-square limit of sums over discretizations:
+
+$$\int_0^t g\,dW_s = \lim_{n\to\infty} \sum_i g(X_{t_i}, t_i)\,(W_{t_{i+1}} - W_{t_i})$$
+
+This limit converges in $L^2$ (mean-square), not pointwise. Individual paths are therefore constructed through integration, never through differentiation.
+
+### Convergence lives at the distribution level
+
+While $\Delta X / \Delta t$ has no pointwise limit, the $\Delta t \to 0$ limit is well-defined when taken over **moments of the transition density**. This is exactly what the Kramers-Moyal coefficients capture:
+
+$$D_n(x) = \frac{1}{n!}\lim_{\Delta t \to 0}\frac{1}{\Delta t}\,\mathbb{E}[(y-x)^n]$$
+
+The $1/\Delta t$ factor that would blow up for a single realization is tamed by the expectation $\mathbb{E}[\cdot]$, which averages over the noise. The result is the Fokker-Planck equation — an evolution equation for the probability density $p(y,t \mid x)$ that admits a genuine time derivative $\partial_t p$.
+
+### Summary of the three levels
+
+| Level | Object | Well-defined? |
+|---|---|---|
+| Single path $X_t$ | Continuous curve | Yes — continuous, but nowhere differentiable. No $dX/dt$. |
+| SDE $dX = f\,dt + g\,dW$ | Integral equation for paths | Yes — via the Ito integral (mean-square limit). |
+| Fokker-Planck $\partial_t p = \ldots$ | PDE for the density | Yes — smooth $\partial_t p$ exists. Clean calculus applies. |
+
+The roughness of individual paths is not an artifact of discretization — it is intrinsic to Brownian motion. The SDE framework handles this by shifting from pointwise derivatives to integrals (at the path level) and to density evolution (at the population level).
