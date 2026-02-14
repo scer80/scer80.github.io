@@ -24,6 +24,8 @@
           url: /contents/generative_models/guidance
         - title: ODE-SDE Equivalence
           url: /contents/generative_models/ode_sde_equivalence
+        - title: ODE-SDE Inversion
+          url: /contents/generative_models/ode_sde_inversion
         - title: Flow Matching
           url: /contents/generative_models/flow_matching
         - title: Scratchpad
