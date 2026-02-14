@@ -65,3 +65,73 @@ Divide by $q$ and use $\frac{1}{q}\frac{\partial q}{\partial x} = \frac{\partial
 $$\boxed{f_q(x, u) = -f(x, T-u) + g^2(T-u)\, \frac{\partial}{\partial x}\log \underbrace{q(x, u)}_{p(x, T-u)}}$$
 
 The reverse drift is the negated forward drift plus a score-weighted diffusion term.
+
+## Connecting ODE-SDE Equivalence with Diffusion Inversion
+
+### ODE Inversion
+
+Assume ODE:
+$$\frac{dx(t)}{dt} = f(x(t), t)$$
+
+that transforms $p_0$ to $p_T$ according to the Continuity Equation:
+
+$$\partial_t p_t(x) = -\nabla \cdot \big( p_t(x)\, f(x, t) \big). \tag{3}$$
+
+The reverse ODE must transform $q_0 = p_T$ to $q_T = p_0$ along the trajectory $q(x, u) = p(x, T-u)$, and therefore:
+
+$$
+\partial_u q_u(x) = -\partial_t p_t(x)\bigg|_{t=T-u}. \tag{4}
+$$
+
+The Continuity Equation for the inverse ODE is:
+
+$$
+\partial_u q_u(x) = -\nabla \cdot \big( q_u(x)\, f_{q}(x, u) \big). \tag{5}
+$$
+
+We rewrite (4) using (3) and (5):
+
+$$
+ -\nabla \cdot \big( p_t(x)\, f(x, t) \big) = \nabla \cdot \big( \underbrace{q_u(x)}_{p(x, T-u)}\, f_{q}(x, u) \big)\bigg|_{u=T-t}
+$$
+
+$$
+-\nabla \cdot \big( p_t(x)\, f(x, t) \big) = \nabla \cdot \big( p(x, t)\, f_{q}(x, T-t) \big)
+$$
+
+$$
+\boxed{f_{q}(x, T-t) = -f(x, t)} \quad \Rightarrow \quad \boxed{f_{q}(x, u) = -f(x, T-u)}
+$$
+
+### Equivalent SDE of the ODE Forward
+
+By [ODE-SDE equivalence](ode_sde_equivalence.md), for any noise schedule $\sigma_t \geq 0$, the SDE
+
+$$dx(t) = \left[ f(x, t) + \frac{\sigma_t^2}{2} \frac{\partial}{\partial x}\log p_t(x) \right] dt + \sigma_t\, dW_t \tag{6}$$
+
+generates the same density path $p_t$ as the forward ODE. The drift decomposes into the original ODE drift $f$ plus a score correction that counteracts the diffusion.
+
+### Equivalent SDE of the ODE Backward
+
+The reverse ODE has drift $f_q(x, u) = -f(x, T-u)$ and generates $q_u$. Applying ODE-SDE equivalence again, for any noise schedule $\tilde{\sigma}_u \geq 0$:
+
+$$dx(u) = \left[ -f(x, T-u) + \frac{\tilde{\sigma}_u^2}{2} \frac{\partial}{\partial x}\log q_u(x) \right] du + \tilde{\sigma}_u\, dW_u \tag{7}$$
+
+generates the same density $q_u$ as the reverse ODE.
+
+### Inversion of SDE Equivalent of ODE Forward
+
+Alternatively, we can take the forward SDE (6) and invert it directly using the reverse-time drift formula from this document. The forward SDE has drift $\tilde{f}(x, t) = f(x, t) + \frac{\sigma_t^2}{2} \frac{\partial}{\partial x}\log p_t(x)$ and diffusion $g(t) = \sigma_t$. Applying the boxed result:
+
+$$f_q(x, u) = -\tilde{f}(x, T-u) + g^2(T-u)\, \frac{\partial}{\partial x}\log q_u(x)$$
+
+$$= -f(x, T-u) - \frac{\sigma_{T-u}^2}{2} \frac{\partial}{\partial x}\log \underbrace{p_{T-u}(x)}_{q_u(x)} + \sigma_{T-u}^2\, \frac{\partial}{\partial x}\log q_u(x)$$
+
+$$= -f(x, T-u) + \frac{\sigma_{T-u}^2}{2} \frac{\partial}{\partial x}\log q_u(x)$$
+
+The half of the score from the forward drift cancels against the full score from the inversion formula, leaving half. The inverted SDE is:
+
+$$dx(u) = \left[ -f(x, T-u) + \frac{\sigma_{T-u}^2}{2} \frac{\partial}{\partial x}\log q_u(x) \right] du + \sigma_{T-u}\, dW_u \tag{8}$$
+
+This is identical to (7) with $\tilde{\sigma}_u = \sigma_{T-u}$. The two routes — *invert then add noise* vs. *add noise then invert* — commute: the noise schedule simply gets time-reversed.
+
