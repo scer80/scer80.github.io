@@ -23,3 +23,8 @@ exclude:
   - Gemfile.lock
   - node_modules
   - vendor
+  - contents/apps/cube/node_modules
+  - contents/apps/cube/main.ts
+  - contents/apps/cube/tsconfig.json
+  - contents/apps/cube/package.json
+  - contents/apps/cube/package-lock.json

@@ -11,8 +11,19 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
     <link rel="shortcut icon" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
     <link rel="apple-touch-icon" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
+
+    <!-- MathJax for LaTeX rendering -->
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 </head>
-<body>
+<body{% if page.style %} class="{{ page.style }}"{% endif %}>
     <main>
         {{ content }}
     </main>

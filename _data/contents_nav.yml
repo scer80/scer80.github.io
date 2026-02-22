@@ -1,0 +1,51 @@
+- title: Home
+  url: /
+- title: Contents
+  url: /contents/
+  children:
+    - title: Apps
+      url: /contents/apps/
+      children:
+        - title: Cube
+          url: /contents/apps/cube/
+    - title: Generative Models
+      url: /contents/generative_models/
+      children:
+        - title: Score Function
+          url: /contents/generative_models/score_function
+        - title: Score Matching
+          url: /contents/generative_models/score_matching
+        - title: Markovian Invertibility
+          url: /contents/generative_models/markovian_invertibility
+        - title: Fokker-Planck
+          url: /contents/generative_models/fokker_planck
+        - title: Diffusion SDE
+          url: /contents/generative_models/diffusion_sde
+        - title: Reverse-Time Drift
+          url: /contents/generative_models/diffusion_inversion
+        - title: Diffusion Models
+          url: /contents/generative_models/diffusion_models
+        - title: Guidance
+          url: /contents/generative_models/guidance
+        - title: ODE-SDE Equivalence
+          url: /contents/generative_models/ode_sde_equivalence
+        - title: ODE-SDE Inversion
+          url: /contents/generative_models/ode_sde_inversion
+        - title: Flow Matching Legacy
+          url: /contents/generative_models/flow_matching_legacy
+        - title: ODEs
+          url: /contents/generative_models/odes/
+          children:
+            - title: Continuity Equation
+              url: /contents/generative_models/odes/continuity_equation
+            - title: Distribution Transformation
+              url: /contents/generative_models/odes/distribution_transformation
+            - title: Inversion
+              url: /contents/generative_models/odes/inversion          
+        - title: Flow Matching
+          url: /contents/generative_models/flow_matching/
+          children:
+            - title: Learning Objective
+              url: /contents/generative_models/flow_matching/learning_objective
+        - title: Scratchpad
+          url: /contents/generative_models/scratchpad

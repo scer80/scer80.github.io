@@ -1,5 +1,5 @@
 # scer80.github.io
 
-Personal website hosted on GitHub Pages
+[Personal website hosted on GitHub Pages](https://scer80.github.io)
 
-[Kitten](scer80.github.io)
+

@@ -1,6 +1,10 @@
 _site
-.sass-cache
+.bundle
 .jekyll-cache
 .jekyll-metadata
+.sass-cache
 vendor
-.bundle 
+Gemfile.lock
+package-lock.json
+node_modules/
+contents/apps/cube/main.js

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} - {{ site.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+    <!-- Favicon support for various browsers and devices -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
+    <link rel="shortcut icon" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
+    <link rel="apple-touch-icon" href="{{ '/assets/favicon/cat_icon.png' | relative_url }}">
+
+    <!-- MathJax for LaTeX rendering -->
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+    <!-- TikZJax for TikZ diagram rendering -->
+    <link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+    <script src="https://tikzjax.com/v1/tikzjax.js"></script>
+</head>
+<body class="paper-style">
+    <div class="sidebar-layout">
+        <nav class="sidebar" id="sidebar">
+            <button type="button" class="sidebar-collapse-btn" id="sidebarBtn" title="Toggle sidebar">&#9776;</button>
+            <div class="sidebar-content">
+                {% include sidebar.html items=site.data.contents_nav %}
+            </div>
+        </nav>
+        <main class="content-area">
+            {{ content }}
+        </main>
+    </div>
+    <script>
+    // Auto-expand sidebar path to current page
+    var cur = document.querySelector('.sidebar a.sidebar-current');
+    while (cur) {
+      if (cur.tagName === 'LI') cur.classList.add('expanded');
+      cur = cur.parentElement;
+    }
+    // Sidebar collapse toggle
+    document.getElementById('sidebarBtn').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+    });
+    </script>
+</body>
+</html>
