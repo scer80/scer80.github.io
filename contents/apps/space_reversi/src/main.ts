@@ -4,7 +4,7 @@ import { createGameState, makeMove, getScore, GameState } from './game';
 const canvas3d = document.getElementById('canvas3d') as HTMLCanvasElement;
 const canvas2d = document.getElementById('board2d') as HTMLCanvasElement;
 
-const gameState = createGameState();
+let gameState = createGameState();
 const renderer = createBoardRenderer(canvas3d, canvas2d);
 
 const greenStatus = document.getElementById('green-status')!;
@@ -62,5 +62,27 @@ canvas2d.addEventListener('click', (e) => {
     }
   }
 });
+
+const resetBtn = document.getElementById('reset-btn')!;
+resetBtn.addEventListener('click', () => {
+  gameState = createGameState();
+  renderer.resetCamera();
+  render();
+});
+
+const greenAiCheck = document.getElementById('green-ai') as HTMLInputElement;
+const redAiCheck = document.getElementById('red-ai') as HTMLInputElement;
+const greenAiLabel = document.getElementById('green-ai-label')!;
+const redAiLabel = document.getElementById('red-ai-label')!;
+
+function updateAiLabels() {
+  greenAiLabel.textContent = greenAiCheck.checked ? 'AI' : 'User';
+  redAiLabel.textContent = redAiCheck.checked ? 'AI' : 'User';
+}
+
+greenAiCheck.addEventListener('change', updateAiLabels);
+redAiCheck.addEventListener('change', updateAiLabels);
+
+updateAiLabels();
 
 render();

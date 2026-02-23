@@ -135,14 +135,18 @@ export function createBoardRenderer2D(canvas: HTMLCanvasElement): BoardRenderer2
       ctx.fillStyle = '#4466ff';
       ctx.fillText('Z', startX + totalSpan + 5, zArrowY);
 
-      drawArrow(startX, startY, startX + shortLen, startY, '#ff4444', headSize);
-      ctx.fillStyle = '#ff4444';
-      ctx.fillText('X', startX + shortLen + 5, startY);
+      const originX = startX;
+      const originY = startY + BOARD_SIZE * cellSizeTotal - shortLen;
 
-      drawArrow(startX, startY, startX, startY + shortLen, '#44ff44', headSize);
+      drawArrow(originX, originY, originX + shortLen, originY, '#ff4444', headSize);
+      ctx.fillStyle = '#ff4444';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('X', originX + shortLen + 5, originY);
+
+      drawArrow(originX, originY, originX, originY + shortLen, '#44ff44', headSize);
       ctx.fillStyle = '#44ff44';
       ctx.textBaseline = 'top';
-      ctx.fillText('Y', startX + 5, startY + shortLen);
+      ctx.fillText('Y', originX + 5, originY + shortLen);
     },
 
     getCellFromClick(clickX: number, clickY: number) {

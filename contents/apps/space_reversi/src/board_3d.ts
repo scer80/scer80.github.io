@@ -3,6 +3,7 @@ import { BoardState, Player, BOARD_SIZE, LAYERS, PLAYER_COLORS } from './board_c
 
 export interface BoardRenderer3D {
   render(board: BoardState): void;
+  resetCamera(): void;
 }
 
 export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3D {
@@ -90,7 +91,7 @@ export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3
 
   let isDragging = false;
   let previousMousePosition = { x: 0, y: 0 };
-  let rotation = { x: Math.PI / 4, y: Math.PI / 4 };
+  let rotation = { x: 0, y: 0 };
 
   function updateCamera() {
     const distance = 18;
@@ -141,21 +142,30 @@ export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3
   canvas.addEventListener('mouseup', () => { isDragging = false; });
   canvas.addEventListener('mouseleave', () => { isDragging = false; });
 
-  const cubes: THREE.Mesh[][][] = [];
-  const cubeGeometry = new THREE.BoxGeometry(0.9, 0.9, 0.9);
+  const lineMaterial = new THREE.LineBasicMaterial({ color: 0x666666, transparent: true, opacity: 0.35 });
 
-  for (let z = 0; z < LAYERS; z++) {
-    cubes[z] = [];
-    for (let y = 0; y < BOARD_SIZE; y++) {
-      cubes[z][y] = [];
-      for (let x = 0; x < BOARD_SIZE; x++) {
-        const material = new THREE.MeshLambertMaterial({ color: 0x333355, transparent: true, opacity: 0.15, depthWrite: false });
-        const cube = new THREE.Mesh(cubeGeometry, material);
-        cube.position.set(x, y, z);
-        cube.renderOrder = 0;
-        scene.add(cube);
-        cubes[z][y][x] = cube;
+  const gridGroup = new THREE.Group();
+  scene.add(gridGroup);
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    for (let j = 0; j < BOARD_SIZE; j++) {
+      const xPoints = [];
+      for (let k = 0; k < BOARD_SIZE; k++) {
+        xPoints.push(new THREE.Vector3(k, i, j));
       }
+      gridGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(xPoints), lineMaterial));
+
+      const yPoints = [];
+      for (let k = 0; k < BOARD_SIZE; k++) {
+        yPoints.push(new THREE.Vector3(i, k, j));
+      }
+      gridGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(yPoints), lineMaterial));
+
+      const zPoints = [];
+      for (let k = 0; k < BOARD_SIZE; k++) {
+        zPoints.push(new THREE.Vector3(i, j, k));
+      }
+      gridGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(zPoints), lineMaterial));
     }
   }
 
@@ -190,20 +200,24 @@ export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3
         for (let y = 0; y < BOARD_SIZE; y++) {
           for (let x = 0; x < BOARD_SIZE; x++) {
             const cell = board[z][y][x];
-            const cube = cubes[z][y][x];
             const piece = pieces[z][y][x];
 
             if (cell === 0) {
-              (cube.material as THREE.MeshLambertMaterial).color.setHex(0x333355);
               piece.visible = false;
             } else {
-              (cube.material as THREE.MeshLambertMaterial).color.setHex(0x222244);
               piece.visible = true;
               piece.material = pieceMaterials[cell as Player];
             }
           }
         }
       }
+      renderer.render(scene, camera);
+    },
+
+    resetCamera() {
+      rotation = { x: Math.PI / 4, y: Math.PI / 4 };
+      updateCamera();
+      axesGroup.quaternion.copy(camera.quaternion);
       renderer.render(scene, camera);
     }
   };

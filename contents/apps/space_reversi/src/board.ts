@@ -5,6 +5,7 @@ import { createBoardRenderer2D } from './board_2d';
 export interface BoardRenderer {
   render(board: BoardState, currentPlayer: Player, validMoves: Set<string>): void;
   getCellFromClick(clickX: number, clickY: number): { x: number; y: number; z: number } | null;
+  resetCamera(): void;
 }
 
 export function createBoardRenderer(
@@ -21,6 +22,9 @@ export function createBoardRenderer(
     },
     getCellFromClick(clickX: number, clickY: number) {
       return renderer2d.getCellFromClick(clickX, clickY);
+    },
+    resetCamera() {
+      renderer3d.resetCamera();
     },
   };
 }
