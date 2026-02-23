@@ -52,9 +52,7 @@ export function createBoardRenderer2D(canvas: HTMLCanvasElement): BoardRenderer2
 
       if (clickX >= boardLeft && clickX < boardRight && clickY >= boardTop && clickY < boardBottom) {
         const x = Math.floor((clickX - boardLeft) / cellWithGap);
-        console.log(`Clicked on clickY: (${(clickY - boardTop) / cellWithGap})`);
         const y = BOARD_SIZE - 1 - Math.floor((clickY - boardTop) / cellWithGap);
-        console.log(`Clicked on cell: (${x}, ${y}, ${layout.z})`);
         if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE) {
           return { x, y, z: layout.z };
         }

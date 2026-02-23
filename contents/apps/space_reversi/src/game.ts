@@ -182,3 +182,176 @@ export function getScore(board: BoardState): { green: number; red: number } {
     red: countPieces(board, Player.RED),
   };
 }
+
+function copyBoard(board: BoardState): BoardState {
+  const newBoard: BoardState = [];
+  for (let z = 0; z < LAYERS; z++) {
+    newBoard[z] = [];
+    for (let y = 0; y < BOARD_SIZE; y++) {
+      newBoard[z][y] = [...board[z][y]];
+    }
+  }
+  return newBoard;
+}
+
+function applyMove(board: BoardState, x: number, y: number, z: number, player: Player): BoardState {
+  const newBoard = copyBoard(board);
+  newBoard[z][y][x] = player;
+  
+  const flipped = getFlippedPieces(board, x, y, z, player);
+  for (const [fx, fy, fz] of flipped) {
+    newBoard[fz][fy][fx] = player;
+  }
+  
+  return newBoard;
+}
+
+function isCorner(x: number, y: number, z: number): boolean {
+  const corners = [0, BOARD_SIZE - 1];
+  return corners.includes(x) && corners.includes(y) && corners.includes(z);
+}
+
+function isEdge(x: number, y: number, z: number): boolean {
+  const edges = [0, BOARD_SIZE - 1];
+  const edgeCount = (edges.includes(x) ? 1 : 0) + (edges.includes(y) ? 1 : 0) + (edges.includes(z) ? 1 : 0);
+  return edgeCount >= 2;
+}
+
+function evaluate(board: BoardState, player: Player): number {
+  const opponent = player === Player.GREEN ? Player.RED : Player.GREEN;
+  
+  let score = 0;
+  
+  for (let z = 0; z < LAYERS; z++) {
+    for (let y = 0; y < BOARD_SIZE; y++) {
+      for (let x = 0; x < BOARD_SIZE; x++) {
+        const cell = board[z][y][x];
+        if (cell === 0) continue;
+        
+        let weight = 1;
+        
+        if (isCorner(x, y, z)) {
+          weight = 100;
+        } else if (isEdge(x, y, z)) {
+          weight = 5;
+        }
+        
+        if (cell === player) {
+          score += weight;
+        } else {
+          score -= weight;
+        }
+      }
+    }
+  }
+  
+  const playerMobility = getValidMoves(board, player).size;
+  const opponentMobility = getValidMoves(board, opponent).size;
+  score += (playerMobility - opponentMobility) * 2;
+  
+  return score;
+}
+
+let searchTimeLimit = 1000;
+let searchStartTime = 0;
+let searchStopped = false;
+
+export function setSearchTimeLimit(ms: number) {
+  searchTimeLimit = ms;
+}
+
+function minimax(
+  board: BoardState,
+  depth: number,
+  alpha: number,
+  beta: number,
+  isMaximizing: boolean,
+  player: Player
+): number {
+  if (searchStopped || Date.now() - searchStartTime > searchTimeLimit) {
+    searchStopped = true;
+    return evaluate(board, player);
+  }
+  
+  const currentPlayer = isMaximizing ? player : (player === Player.GREEN ? Player.RED : Player.GREEN);
+  const moves = getValidMoves(board, currentPlayer);
+  
+  if (depth === 0 || moves.size === 0) {
+    return evaluate(board, player);
+  }
+  
+  if (isMaximizing) {
+    let maxEval = -Infinity;
+    for (const move of moves) {
+      if (searchStopped || Date.now() - searchStartTime > searchTimeLimit) {
+        searchStopped = true;
+        break;
+      }
+      const [x, y, z] = move.split(',').map(Number);
+      const newBoard = applyMove(board, x, y, z, currentPlayer);
+      const evalScore = minimax(newBoard, depth - 1, alpha, beta, false, player);
+      maxEval = Math.max(maxEval, evalScore);
+      alpha = Math.max(alpha, evalScore);
+      if (beta <= alpha) break;
+    }
+    return maxEval;
+  } else {
+    let minEval = Infinity;
+    for (const move of moves) {
+      if (searchStopped || Date.now() - searchStartTime > searchTimeLimit) {
+        searchStopped = true;
+        break;
+      }
+      const [x, y, z] = move.split(',').map(Number);
+      const newBoard = applyMove(board, x, y, z, currentPlayer);
+      const evalScore = minimax(newBoard, depth - 1, alpha, beta, true, player);
+      minEval = Math.min(minEval, evalScore);
+      beta = Math.min(beta, evalScore);
+      if (beta <= alpha) break;
+    }
+    return minEval;
+  }
+}
+
+export function getBestMove(board: BoardState, player: Player, depth: number): { x: number; y: number; z: number } | null {
+  const moves = getValidMoves(board, player);
+  
+  if (moves.size === 0) {
+    return null;
+  }
+  
+  if (moves.size === 1) {
+    const move = Array.from(moves)[0];
+    const [x, y, z] = move.split(',').map(Number);
+    return { x, y, z };
+  }
+  
+  searchStartTime = Date.now();
+  searchStopped = false;
+  
+  let bestMove: string | null = null;
+  let bestScore = -Infinity;
+  
+  for (const move of moves) {
+    if (searchStopped || Date.now() - searchStartTime > searchTimeLimit) {
+      break;
+    }
+    const [x, y, z] = move.split(',').map(Number);
+    const newBoard = applyMove(board, x, y, z, player);
+    const score = minimax(newBoard, depth - 1, -Infinity, Infinity, false, player);
+    
+    if (score > bestScore) {
+      bestScore = score;
+      bestMove = move;
+    }
+  }
+  
+  if (!bestMove) {
+    const move = Array.from(moves)[0];
+    const [x, y, z] = move.split(',').map(Number);
+    return { x, y, z };
+  }
+  
+  const [x, y, z] = bestMove.split(',').map(Number);
+  return { x, y, z };
+}
