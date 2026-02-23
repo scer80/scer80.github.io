@@ -167,7 +167,7 @@ export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3
     }
   }
 
-  const pieceGeometry = new THREE.SphereGeometry(0.42, 16, 16);
+  const pieceGeometry = new THREE.SphereGeometry(0.294, 16, 16);
   const pieceMaterials: Record<Player, THREE.MeshLambertMaterial> = {
     [Player.GREEN]: new THREE.MeshLambertMaterial({ color: 0x44ff44, transparent: true, opacity: 0.85 }),
     [Player.RED]: new THREE.MeshLambertMaterial({ color: 0xff4444, transparent: true, opacity: 0.85 }),
@@ -213,7 +213,7 @@ export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3
     },
 
     resetCamera() {
-      rotation = { x: Math.PI / 4, y: Math.PI / 4 };
+      rotation = { x: 0, y: 0 };
       updateCamera();
       axesGroup.quaternion.copy(camera.quaternion);
       renderer.render(scene, camera);
