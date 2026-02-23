@@ -6,6 +6,8 @@ _site
 vendor
 Gemfile.lock
 package-lock.json
+!contents/apps/cube/package-lock.json
+!contents/apps/space_reversi/package-lock.json
 node_modules/
 contents/apps/cube/main.js
 contents/apps/space_reversi/dist/
