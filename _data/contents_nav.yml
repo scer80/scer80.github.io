@@ -8,6 +8,8 @@
       children:
         - title: Cube
           url: /contents/apps/cube/
+        - title: Space Reversi
+          url: /contents/apps/space_reversi/
     - title: Generative Models
       url: /contents/generative_models/
       children:
