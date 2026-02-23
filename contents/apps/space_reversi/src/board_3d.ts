@@ -13,8 +13,6 @@ export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(50, 600 / 400, 0.1, 1000);
-  camera.position.set(12, 10, 12);
-  camera.lookAt(3.5, 3.5, 3.5);
 
   const axesGroup = new THREE.Group();
   scene.add(axesGroup);

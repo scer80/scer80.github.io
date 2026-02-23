@@ -23,11 +23,9 @@ export function createBoardRenderer2D(canvas: HTMLCanvasElement): BoardRenderer2
 
   function updateBoardLayout() {
     boardLayout = [];
-    const gridGap = Math.max(1, Math.floor(cellSizeTotal * 0.1));
-    const cellSize = cellSizeTotal - gridGap;
     const boardWidth = BOARD_SIZE * cellSizeTotal;
     const startX = padding;
-    const startY = padding + labelHeight;
+    const startY = padding;
 
     for (let z = 0; z < LAYERS; z++) {
       boardLayout.push({
@@ -54,7 +52,7 @@ export function createBoardRenderer2D(canvas: HTMLCanvasElement): BoardRenderer2
 
       if (clickX >= boardLeft && clickX < boardRight && clickY >= boardTop && clickY < boardBottom) {
         const x = Math.floor((clickX - boardLeft) / cellWithGap);
-        const y = Math.floor((clickY - boardTop) / cellWithGap);
+        const y = BOARD_SIZE - 1 - Math.floor((clickY - boardTop) / cellWithGap);
         if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE) {
           return { x, y, z: layout.z };
         }
@@ -101,7 +99,7 @@ export function createBoardRenderer2D(canvas: HTMLCanvasElement): BoardRenderer2
         for (let y = 0; y < BOARD_SIZE; y++) {
           for (let x = 0; x < BOARD_SIZE; x++) {
             const cx = xOffset + x * (cellSize + gridGap);
-            const cy = yOffset + y * (cellSize + gridGap);
+            const cy = yOffset + (BOARD_SIZE - 1 - y) * (cellSize + gridGap);
             const cell = board[z][y][x];
             const key = `${x},${y},${z}`;
 
@@ -136,17 +134,17 @@ export function createBoardRenderer2D(canvas: HTMLCanvasElement): BoardRenderer2
       ctx.fillText('Z', startX + totalSpan + 5, zArrowY);
 
       const originX = startX;
-      const originY = startY + BOARD_SIZE * cellSizeTotal - shortLen;
+      const originY = startY + BOARD_SIZE * cellSizeTotal;
 
       drawArrow(originX, originY, originX + shortLen, originY, '#ff4444', headSize);
       ctx.fillStyle = '#ff4444';
       ctx.textBaseline = 'middle';
       ctx.fillText('X', originX + shortLen + 5, originY);
 
-      drawArrow(originX, originY, originX, originY + shortLen, '#44ff44', headSize);
+      drawArrow(originX, originY, originX, originY - shortLen, '#44ff44', headSize);
       ctx.fillStyle = '#44ff44';
       ctx.textBaseline = 'top';
-      ctx.fillText('Y', originX + 5, originY + shortLen);
+      ctx.fillText('Y', originX + 5, originY - shortLen - 5);
     },
 
     getCellFromClick(clickX: number, clickY: number) {
