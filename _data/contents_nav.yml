@@ -13,6 +13,38 @@
     - title: Generative Models
       url: /contents/generative_models/
       children:
+        - title: ODEs
+          url: /contents/generative_models/odes/
+          children:
+            - title: Continuity Equation
+              url: /contents/generative_models/odes/continuity_equation
+            - title: Distribution Transformation
+              url: /contents/generative_models/odes/distribution_transformation
+            - title: Inversion
+              url: /contents/generative_models/odes/inversion
+        - title: SDEs
+          url: /contents/generative_models/sdes/
+          children:
+            - title: Fokker-Planck Equation
+              url: /contents/generative_models/sdes/fokker_planck
+            - title: Wiener Process
+              url: /contents/generative_models/sdes/wiener_process/
+              children:
+                - title: Definition
+                  url: /contents/generative_models/sdes/wiener_process/definition
+                - title: Fokker-Planck
+                  url: /contents/generative_models/sdes/wiener_process/wp_fokker_planck
+                - title: Mean & Variance
+                  url: /contents/generative_models/sdes/wiener_process/wp_mean_variance
+                - title: Inversion
+                  url: /contents/generative_models/sdes/wiener_process/wp_inversion
+        - title: Flow Matching
+          url: /contents/generative_models/flow_matching/
+          children:
+            - title: Learning Objective
+              url: /contents/generative_models/flow_matching/learning_objective
+        - title: Flow Matching Legacy
+          url: /contents/generative_models/flow_matching_legacy
         - title: Score Function
           url: /contents/generative_models/score_function
         - title: Score Matching
@@ -23,7 +55,7 @@
           url: /contents/generative_models/fokker_planck
         - title: Diffusion SDE
           url: /contents/generative_models/diffusion_sde
-        - title: Reverse-Time Drift
+        - title: Reverse-Time Drift for Diffusion SDEs
           url: /contents/generative_models/diffusion_inversion
         - title: Diffusion Models
           url: /contents/generative_models/diffusion_models
@@ -31,23 +63,5 @@
           url: /contents/generative_models/guidance
         - title: ODE-SDE Equivalence
           url: /contents/generative_models/ode_sde_equivalence
-        - title: ODE-SDE Inversion
-          url: /contents/generative_models/ode_sde_inversion
-        - title: Flow Matching Legacy
-          url: /contents/generative_models/flow_matching_legacy
-        - title: ODEs
-          url: /contents/generative_models/odes/
-          children:
-            - title: Continuity Equation
-              url: /contents/generative_models/odes/continuity_equation
-            - title: Distribution Transformation
-              url: /contents/generative_models/odes/distribution_transformation
-            - title: Inversion
-              url: /contents/generative_models/odes/inversion          
-        - title: Flow Matching
-          url: /contents/generative_models/flow_matching/
-          children:
-            - title: Learning Objective
-              url: /contents/generative_models/flow_matching/learning_objective
         - title: Scratchpad
           url: /contents/generative_models/scratchpad
