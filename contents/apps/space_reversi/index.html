@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Space Reversi</title>
+  <link rel="icon" href="./assets/icon.jfif" />
+  <style>
+    body {
+      margin: 0;
+      background: #0a0a1a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Courier New', monospace;
+      color: #e0e0ff;
+    }
+    #app {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    #status {
+      display: flex;
+      gap: 32px;
+      font-size: 20px;
+      padding: 10px 20px;
+      background: #1a1a2e;
+      border-radius: 8px;
+    }
+    .player-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .player-indicator {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+    .active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    #canvas3d {
+      width: 600px;
+      height: 400px;
+    }
+    #board2d {
+      width: 100%;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="status">
+      <div class="player-status" id="green-status">
+        <div class="player-indicator" style="background: #44ff44;"></div>
+        <span id="green-action"></span>
+      </div>
+      <div class="player-status" id="red-status">
+        <div class="player-indicator" style="background: #ff4444;"></div>
+        <span id="red-action"></span>
+      </div>
+    </div>
+    <canvas id="canvas3d"></canvas>
+    <canvas id="board2d"></canvas>
+  </div>
+  <script type="module" src="./dist/main.js"></script>
+</body>
+</html>

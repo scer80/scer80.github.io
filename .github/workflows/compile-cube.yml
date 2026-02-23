@@ -34,6 +34,14 @@ jobs:
         working-directory: contents/apps/cube
         run: npm run build
 
+      - name: Install space_reversi dependencies
+        working-directory: contents/apps/space_reversi
+        run: npm install
+
+      - name: Build space_reversi TypeScript
+        working-directory: contents/apps/space_reversi
+        run: npm run build
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:

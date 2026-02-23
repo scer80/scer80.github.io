@@ -8,3 +8,4 @@ Gemfile.lock
 package-lock.json
 node_modules/
 contents/apps/cube/main.js
+contents/apps/space_reversi/dist/

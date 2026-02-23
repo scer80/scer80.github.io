@@ -28,3 +28,8 @@ exclude:
   - contents/apps/cube/tsconfig.json
   - contents/apps/cube/package.json
   - contents/apps/cube/package-lock.json
+  - contents/apps/space_reversi/node_modules
+  - contents/apps/space_reversi/src
+  - contents/apps/space_reversi/tsconfig.json
+  - contents/apps/space_reversi/package.json
+  - contents/apps/space_reversi/package-lock.json
