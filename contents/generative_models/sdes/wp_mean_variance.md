@@ -14,7 +14,7 @@ $$dm_t = \mathbb{E}[f(t)\,x_t\,dt + g(t)\,dW_t] = f(t)\,m_t\,dt$$
 
 $$\boxed{\dot{m}_t = f(t)\,m_t}, \qquad m_0 = x_0$$
 
-with solution $m_t = e^{\int_0^t f(s)\,ds}\, x_0$.
+with solution $m_t = e^{\int\limits_0^t f(s)\,ds}\, x_0$.
 
 ## Variance: $\dot{v}_t = 2f(t)\,v_t + g^2(t)$
 
@@ -32,4 +32,4 @@ $$\dot{v}_t = \frac{d}{dt}\mathbb{E}[x_t^2] - 2m_t\dot{m}_t = 2f(t)\,\mathbb{E}[
 
 $$\boxed{\dot{v}_t = 2f(t)\,v_t + g^2(t)}, \qquad v_0 = 0$$
 
-These two ODEs fully determine the Gaussian transition kernel of the linear SDE: $p_t(x \mid x_0) = \mathcal{N}(m_t,\, v_t)$. They are used in [Diffusion models](../../diffusion_models.md) to derive the noising SDE from a prescribed noise schedule.
+These two ODEs fully determine the Gaussian transition kernel of the linear SDE: $p_t(x \mid x_0) = \mathcal{N}(m_t,\, v_t)$.

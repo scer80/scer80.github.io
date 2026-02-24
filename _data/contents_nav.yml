@@ -25,24 +25,28 @@
         - title: SDEs
           url: /contents/generative_models/sdes/
           children:
+            - title: Wiener Process Definition
+              url: /contents/generative_models/sdes/wiener_process_definition
             - title: Fokker-Planck Equation
               url: /contents/generative_models/sdes/fokker_planck
-            - title: Wiener Process
-              url: /contents/generative_models/sdes/wiener_process/
-              children:
-                - title: Definition
-                  url: /contents/generative_models/sdes/wiener_process/definition
-                - title: Fokker-Planck
-                  url: /contents/generative_models/sdes/wiener_process/wp_fokker_planck
-                - title: Mean & Variance
-                  url: /contents/generative_models/sdes/wiener_process/wp_mean_variance
-                - title: Inversion
-                  url: /contents/generative_models/sdes/wiener_process/wp_inversion
+            - title: Wiener Process Fokker-Planck
+              url: /contents/generative_models/sdes/wp_fokker_planck
+            - title: Wiener Process Mean & Variance
+              url: /contents/generative_models/sdes/wp_mean_variance
+            - title: Wiener Process Inversion
+              url: /contents/generative_models/sdes/wp_inversion
         - title: Flow Matching
           url: /contents/generative_models/flow_matching/
           children:
             - title: Learning Objective
               url: /contents/generative_models/flow_matching/learning_objective
+        - title: Probability
+          url: /contents/generative_models/probability/
+          children:
+            - title: L2 Convergence
+              url: /contents/generative_models/probability/l2_convergence
+            - title: Chebyshev's Inequality
+              url: /contents/generative_models/probability/chebyshev_inequality
         - title: Flow Matching Legacy
           url: /contents/generative_models/flow_matching_legacy
         - title: Score Function

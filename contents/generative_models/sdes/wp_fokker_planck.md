@@ -4,7 +4,7 @@ layout: contents
 
 # Fokker-Planck Equation for the Wiener Process
 
-We connect the SDE $dx = f(x,t)\,dt + g(x,t)\,dW_t$ to the Kramers-Moyal / Fokker-Planck machinery (see [Fokker-Planck derivation](../fokker_planck.md)).
+What happens if we apply the Kramers-Moyal expansion to the Wiener process with SDE: $dx = f(x,t)\,dt + g(x,t)\,dW_t$? (see [Fokker-Planck derivation](./wp_fokker_planck.md).
 
 ## Short-time Transition Density $p(y, \Delta t \mid x)$
 

@@ -39,29 +39,32 @@ $$
 
 ## Solving for the Reverse Drift
 
-Assume the reverse process has an unknown drift $f_q$ with the same diffusion coefficient $g(T-u)$ (at reverse time $u$ the noise level matches the forward process at $t = T-u$):
-$$\frac{\partial q}{\partial u}(x, u) = -\frac{\partial}{\partial x}[q(x, u)\, f_q(x, u)] + \frac{1}{2}g^2(T-u) \frac{\partial^2 q(x, u)}{\partial x^2}. \tag{2}$$
-
-Equate the two expressions (1) and (2) for $\frac{\partial q}{\partial u}(x,u)$:
-$$\frac{\partial}{\partial x}[q(x, u)\,f(x, T-u)] - \frac{1}{2}g^2(T-u) \frac{\partial^2 q(x, u)}{\partial x^2} = -\frac{\partial}{\partial x}[q(x, u)\, f_q(x, u)] + \frac{1}{2}g^2(T-u) \frac{\partial^2 q(x, u)}{\partial x^2}$$
-
-The $\frac{1}{2}g^2(T-u)\,\partial^2_x q$ terms combine. Rearrange:
+Assume the reverse process has an unknown drift $f_q$ with the  diffusion coefficient $g_q(u)$:
 
 $$
-\frac{\partial}{\partial x}[q(x, u)\, f_q(x, u)] = -\frac{\partial}{\partial x}[q(x, u)\,f(x, T-u)] + g^2(T-u) \frac{\partial^2 q(x, u)}{\partial x^2}$$
+\frac{\partial q}{\partial u}(x, u) = -\frac{\partial}{\partial x}[q(x, u)\, f_q(x, u)] + \frac{1}{2}g_q^2(u) \frac{\partial^2 q(x, u)}{\partial x^2}. \tag{2}
+$$
+
+Equate the two expressions (1) and (2) for $\frac{\partial q}{\partial u}(x,u)$:
+$$\frac{\partial}{\partial x}[q(x, u)\,f(x, T-u)] - \frac{1}{2}g^2(T-u) \frac{\partial^2 q(x, u)}{\partial x^2} = -\frac{\partial}{\partial x}[q(x, u)\, f_q(x, u)] + \frac{1}{2}g_q^2(u) \frac{\partial^2 q(x, u)}{\partial x^2}$$
+
+Rearrange:
+
+$$
+\frac{\partial}{\partial x}[q(x, u)\, f_q(x, u)] = -\frac{\partial}{\partial x}[q(x, u)\,f(x, T-u)] + \frac{1}{2}g^2(T-u) \frac{\partial^2 q(x, u)}{\partial x^2} + \frac{1}{2}g_q^2(u) \frac{\partial^2 q(x, u)}{\partial x^2}$$
 
 The RHS is a single $\frac{\partial}{\partial x}$ of something:
 
 $$
-\frac{\partial}{\partial x}[q(x, u)\, f_q(x, u)] = -\frac{\partial}{\partial x}\left[q(x, u)\,f(x, T-u) - g^2(T-u) \frac{\partial q(x, u)}{\partial x}\right]
+\frac{\partial}{\partial x}[q(x, u)\, f_q(x, u)] = -\frac{\partial}{\partial x}\left[q(x, u)\,f(x, T-u) - \frac{1}{2}g^2(T-u) \frac{\partial q(x, u)}{\partial x} - \frac{1}{2}g_q^2(u) \frac{\partial q(x, u)}{\partial x}\right]
 $$
 
 Integrate once in $x$ (boundary terms vanish):
 
-$$q(x,u)\, f_q(x,u) = -q(x,u)\, f(x, T-u) + g^2(T-u) \frac{\partial q(x, u)}{\partial x}$$
+$$q(x,u)\, f_q(x,u) = -q(x,u)\, f(x, T-u) + \frac{1}{2}g^2(T-u) \frac{\partial q(x, u)}{\partial x} + \frac{1}{2}g_q^2(u) \frac{\partial q(x, u)}{\partial x}$$
 
 Divide by $q$ and use $\frac{1}{q}\frac{\partial q}{\partial x} = \frac{\partial}{\partial x}\log q$ (score function):
 
-$$\boxed{f_q(x, u) = -f(x, T-u) + g^2(T-u)\, \frac{\partial}{\partial x}\log \underbrace{q(x, u)}_{p(x, T-u)}}$$
+$$\boxed{f_q(x, u) = -f(x, T-u) + \frac{1}{2}g^2(T-u)\, \frac{\partial}{\partial x}\log \underbrace{q(x, u)}_{p(x, T-u)} + \frac{1}{2}g_q^2(u)\, \frac{\partial}{\partial x}\log \underbrace{q(x, u)}_{p(x, T-u)}}$$
 
 The reverse drift is the negated forward drift plus a score-weighted diffusion term.
