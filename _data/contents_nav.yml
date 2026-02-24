@@ -13,6 +13,13 @@
     - title: Generative Models
       url: /contents/generative_models/
       children:
+        - title: Probability
+          url: /contents/generative_models/probability/
+          children:
+            - title: L2 Convergence
+              url: /contents/generative_models/probability/l2_convergence
+            - title: Chebyshev's Inequality
+              url: /contents/generative_models/probability/chebyshev_inequality
         - title: ODEs
           url: /contents/generative_models/odes/
           children:
@@ -35,37 +42,27 @@
               url: /contents/generative_models/sdes/wp_mean_variance
             - title: Wiener Process Inversion
               url: /contents/generative_models/sdes/wp_inversion
+        - title: ODE-SDE Equivalence
+          url: /contents/generative_models/ode_sde_equivalence
         - title: Flow Matching
           url: /contents/generative_models/flow_matching/
           children:
             - title: Learning Objective
               url: /contents/generative_models/flow_matching/learning_objective
-        - title: Probability
-          url: /contents/generative_models/probability/
+        - title: Miscellaneous
+          url: /contents/generative_models/miscellaneous/
           children:
-            - title: L2 Convergence
-              url: /contents/generative_models/probability/l2_convergence
-            - title: Chebyshev's Inequality
-              url: /contents/generative_models/probability/chebyshev_inequality
-        - title: Flow Matching Legacy
-          url: /contents/generative_models/flow_matching_legacy
-        - title: Score Function
-          url: /contents/generative_models/score_function
-        - title: Score Matching
-          url: /contents/generative_models/score_matching
-        - title: Markovian Invertibility
-          url: /contents/generative_models/markovian_invertibility
-        - title: Fokker-Planck
-          url: /contents/generative_models/fokker_planck
-        - title: Diffusion SDE
-          url: /contents/generative_models/diffusion_sde
-        - title: Reverse-Time Drift for Diffusion SDEs
-          url: /contents/generative_models/diffusion_inversion
-        - title: Diffusion Models
-          url: /contents/generative_models/diffusion_models
-        - title: Guidance
-          url: /contents/generative_models/guidance
-        - title: ODE-SDE Equivalence
-          url: /contents/generative_models/ode_sde_equivalence
-        - title: Scratchpad
-          url: /contents/generative_models/scratchpad
+            - title: Flow Matching Legacy
+              url: /contents/generative_models/miscellaneous/flow_matching_legacy
+            - title: Score Function
+              url: /contents/generative_models/miscellaneous/score_function
+            - title: Score Matching
+              url: /contents/generative_models/miscellaneous/score_matching
+            - title: Markovian Invertibility
+              url: /contents/generative_models/miscellaneous/markovian_invertibility
+            - title: Diffusion Models
+              url: /contents/generative_models/miscellaneous/diffusion_models
+            - title: Guidance
+              url: /contents/generative_models/miscellaneous/guidance
+            - title: Scratchpad
+              url: /contents/generative_models/miscellaneous/scratchpad
