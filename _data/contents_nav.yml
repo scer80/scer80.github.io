@@ -43,7 +43,19 @@
             - title: Wiener Process Inversion
               url: /contents/generative_models/sdes/wp_inversion
         - title: ODE-SDE Equivalence
-          url: /contents/generative_models/ode_sde_equivalence
+          url: /contents/generative_models/ode_sde_equivalence/
+          children:
+            - title: Equivalence Theorem
+              url: /contents/generative_models/ode_sde_equivalence/equivalence_theorem
+            - title: Equivalence and Inversion Commutativity
+              url: /contents/generative_models/ode_sde_equivalence/equivalence_inversion_commutativity
+        - title: Diffusion Models
+          url: /contents/generative_models/diffusion_models/
+          children:
+            - title: Diffusion Models Definition
+              url: /contents/generative_models/diffusion_models/diffusion_models_definition
+            - title: DDIM
+              url: /contents/generative_models/diffusion_models/ddim
         - title: Flow Matching
           url: /contents/generative_models/flow_matching/
           children:
@@ -60,8 +72,6 @@
               url: /contents/generative_models/miscellaneous/score_matching
             - title: Markovian Invertibility
               url: /contents/generative_models/miscellaneous/markovian_invertibility
-            - title: Diffusion Models
-              url: /contents/generative_models/miscellaneous/diffusion_models
             - title: Guidance
               url: /contents/generative_models/miscellaneous/guidance
             - title: Scratchpad

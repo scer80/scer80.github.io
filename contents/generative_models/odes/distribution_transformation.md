@@ -72,4 +72,4 @@ $$\boxed{v_t(x) = \int \frac{p_t(x|z)\, p_{data}(z)}{p_t(x)}\, v_t(x|z)\, dz}$$
 
 ## Flow Matching
 
-This motivates **flow matching**: rather than computing the intractable marginal $v_t(x)$ directly, we learn it by training on the tractable conditional vector field $v_t(x|z)$. The two objectives share the same minimizer. See [Flow Matching](../flow_matching.md) for the full training objective and analysis.
+This motivates **flow matching**: rather than computing the intractable marginal $v_t(x)$ directly, we learn it by training on the tractable conditional vector field $v_t(x|z)$. The two objectives share the same minimizer. See [Flow Matching](../flow_matching/) for the full training objective and analysis.
