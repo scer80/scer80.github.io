@@ -4,13 +4,15 @@ layout: contents
 
 # Diffusion Models
 
-## The Gaussian Probability Path
+## The Gaussian Probability Noising Path
 
 Diffusion models define a conditional probability path between data and noise via:
 
 $$x_t = \alpha_t x_0 + \sigma_t \epsilon, \quad \epsilon \sim \mathcal{N}(0, I) \tag{1}$$
 
 where $\alpha_t$ and $\sigma_t$ are the noise schedule with $\alpha_0 = 1,\; \sigma_0 = 0$ at the data end and $\alpha_1 = 0,\; \sigma_1 = 1$ at the noise end. This gives $p_t(x \mid x_0) = \mathcal{N}(x;\, \alpha_t x_0,\, \sigma_t^2 I)$.
+
+## The Noising SDE
 
 We want a linear SDE $dx = f(t)\,x\,dt + g(t)\,dW_t$ whose transition density matches $p_t(x \mid x_0) = \mathcal{N}(\alpha_t x_0,\, \sigma_t^2 I)$. For a linear SDE, the conditional mean $m_t = \mathbb{E}[x_t \mid x_0]$ and variance $v_t = \text{Var}(x_t \mid x_0)$ satisfy:
 
@@ -26,23 +28,55 @@ $$dx = \underbrace{\frac{\dot{\alpha}_t}{\alpha_t}\,x}_{f(x,t)}\,dt + \underbrac
 
 This derivation assumes $\alpha_t,\sigma_t$ are differentiable and $\alpha_t \neq 0$ on the open interval where (2) is used (typically $t \in [0,1)$). At the endpoint $t=1$, $\alpha_1=0$ is handled as a limit.
 
-## The Conditional Velocity
+## Reversing the Noising SDE
 
-Differentiating the path w.r.t. $t$:
+The forward SDE defines a density path $p_t$. In generation, we solve the reverse-time dynamics from noise to data.
 
-$$v_t(x_t \mid x_0) = \frac{dx_t}{dt} = \dot{\alpha}_t x_0 + \dot{\sigma}_t \epsilon$$
+Using the ODE/SDE equivalence viewpoint, a reverse family with the same probability path can be written (in forward-time coordinates) as
 
-The marginal vector field follows by marginalization:
+$$dx = \left[u_t(x) - \frac{\sigma_t^2}{2}\nabla \log p_t(x)\right]dt + \sigma_t\,d\bar W_t.$$
 
-$$v_t(x_t) = \mathbb{E}_{p_t(x_0 \mid x_t)}[v_t(x_t \mid x_0)]$$
+This shows what must be known to sample: the drift component involving the score $\nabla \log p_t(x)$ (equivalently, the denoising direction).
 
-## Prediction Targets (Reparameterization)
+## Learning the Drift Factor of the Denoising SDE
 
-From the path equation, $\epsilon = \frac{x_t - \alpha_t x_0}{\sigma_t}$, so:
+Models do not learn $\nabla \log p_t$ directly in most implementations. Instead they learn an equivalent target (noise, data, or velocity), and this determines the reverse drift.
 
-$$v_t(x_t \mid x_0) = \dot{\alpha}_t x_0 + \dot{\sigma}_t \cdot \frac{x_t - \alpha_t x_0}{\sigma_t} = \frac{\dot{\sigma}_t}{\sigma_t} x_t + \left(\dot{\alpha}_t - \frac{\alpha_t \dot{\sigma}_t}{\sigma_t}\right) x_0$$
+For the Gaussian path
+$$x_t = \alpha_t x_0 + \sigma_t \epsilon,$$
+the conditional velocity is
+$$v_t(x_t\mid x_0)=\dot\alpha_t x_0+\dot\sigma_t\epsilon.$$
 
-A network predicting any one of $\epsilon$, $x_0$, or $v_t$ can compute the other two given $x_t$ and $t$:
+The marginal drift field is then
+$$v_t(x)=\mathbb E_{p_t(x_0\mid x)}[v_t(x\mid x_0)],$$
+which is another equivalent parameterization of the denoising dynamics.
+
+### Explicit Score Connection
+
+From $x_t=\alpha_t x_0+\sigma_t\epsilon$, we have
+$$x_0\mid x_t \sim \text{(posterior induced by data prior)}, \qquad
+\nabla\log p_t(x_t)=-\frac{1}{\sigma_t}\,\mathbb E[\epsilon\mid x_t].$$
+
+So with an $\epsilon$-predictor,
+$$\nabla\log p_t(x_t)\approx -\frac{1}{\sigma_t}\,\epsilon_\theta(x_t,t).$$
+
+Using $\hat x_{0,\theta}$ instead:
+$$\epsilon_\theta(x_t,t)=\frac{x_t-\alpha_t\hat x_{0,\theta}(x_t,t)}{\sigma_t}
+\;\Rightarrow\;
+\nabla\log p_t(x_t)\approx -\frac{x_t-\alpha_t\hat x_{0,\theta}(x_t,t)}{\sigma_t^2}.$$
+
+Using $v_\theta$:
+$$v_\theta=\dot\alpha_t \hat x_{0,\theta}+\dot\sigma_t \epsilon_\theta,$$
+then convert to $\epsilon_\theta$ (or $\hat x_{0,\theta}$) and apply the same score formula.
+
+This is why predicting $\epsilon$, $x_0$, or $v$ still gives the score term needed in the reverse drift.
+
+## Equivalence of Targets: $\epsilon$, $x_0$, and $v$
+
+From $\epsilon = \frac{x_t-\alpha_t x_0}{\sigma_t}$,
+$$v_t(x_t\mid x_0)=\frac{\dot{\sigma}_t}{\sigma_t}x_t+\left(\dot{\alpha}_t-\frac{\alpha_t\dot{\sigma}_t}{\sigma_t}\right)x_0.$$
+
+So predicting any one of $\epsilon$, $x_0$, or $v_t$ determines the others given $(x_t,t)$:
 
 | Prediction target | Notation | Relationship |
 | :--- | :--- | :--- |
@@ -50,16 +84,13 @@ A network predicting any one of $\epsilon$, $x_0$, or $v_t$ can compute the othe
 | **Data** | $\hat{x}\_{0,\theta}(x_t, t)$ | $x_0 = \frac{x_t - \sigma_t \epsilon}{\alpha_t}$ |
 | **Velocity** | $v_\theta(x_t, t)$ | $v_t = \dot{\alpha}_t x_0 + \dot{\sigma}_t \epsilon$ |
 
-These are all linear functions of each other given $(x_t, t)$. In the idealized Gaussian path setting, objectives based on predicting noise/data/velocity are equivalent up to a time-dependent weighting; practical implementations can differ due to parameterization and loss weighting choices.
+In the Gaussian-path setting, these objectives are equivalent up to time-dependent weighting.
 
-## Original DDPM Training Target
+## Diffusion in Practice (DDPM)
 
-In the original DDPM paper (Ho et al., 2020), the model is trained to predict the additive Gaussian noise at a randomly sampled discrete timestep:
+DDPM uses the same forward noising process, and trains a network to predict noise:
 
-$$x_t = \sqrt{\bar{\alpha}_t}\,x_0 + \sqrt{1-\bar{\alpha}_t}\,\epsilon, \quad \epsilon \sim \mathcal{N}(0,I)$$
+$$x_t = \sqrt{\bar{\alpha}_t}x_0 + \sqrt{1-\bar{\alpha}_t}\epsilon,\qquad \epsilon\sim\mathcal N(0,I),$$
+$$L_{\text{simple}}=\mathbb E_{t,x_0,\epsilon}\left[\|\epsilon-\epsilon_\theta(x_t,t)\|_2^2\right].$$
 
-with network output $\epsilon_\theta(x_t,t)$. The commonly used simplified objective is:
-
-$$L_{\text{simple}} = \mathbb{E}_{t,x_0,\epsilon}\left[\left\|\epsilon - \epsilon_\theta(x_t,t)\right\|_2^2\right]$$
-
-This is a reweighted form of the variational bound terms and became the standard DDPM training target in practice.
+So practically: DDPM learns an equivalent denoising target, then uses it to instantiate a reverse-time sampler.

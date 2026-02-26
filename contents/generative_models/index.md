@@ -10,4 +10,5 @@ layout: contents
 - [ODE-SDE Equivalence](ode_sde_equivalence/)
 - [Diffusion Models](diffusion_models/)
 - [Flow Matching](flow_matching/)
+- [Drifting Models](drifting_models/)
 - [Miscellaneous](miscellaneous/)

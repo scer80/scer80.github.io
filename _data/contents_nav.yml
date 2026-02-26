@@ -61,6 +61,13 @@
           children:
             - title: Learning Objective
               url: /contents/generative_models/flow_matching/learning_objective
+            - title: Rectified Flow
+              url: /contents/generative_models/flow_matching/rectified_flow
+        - title: Drifting Models
+          url: /contents/generative_models/drifting_models/
+          children:
+            - title: Drifting Models Definition
+              url: /contents/generative_models/drifting_models/drifting_models_definition
         - title: Miscellaneous
           url: /contents/generative_models/miscellaneous/
           children:
