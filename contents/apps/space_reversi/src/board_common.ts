@@ -16,16 +16,13 @@ export const PLAYER_NAMES = {
   [Player.RED]: 'Red',
 };
 
-export const BOARD_SIZE = 8;
-export const LAYERS = 8;
-
-export function createEmptyBoard(): BoardState {
+export function createEmptyBoard(size: number): BoardState {
   const board: BoardState = [];
-  for (let z = 0; z < LAYERS; z++) {
+  for (let z = 0; z < size; z++) {
     board[z] = [];
-    for (let y = 0; y < BOARD_SIZE; y++) {
+    for (let y = 0; y < size; y++) {
       board[z][y] = [];
-      for (let x = 0; x < BOARD_SIZE; x++) {
+      for (let x = 0; x < size; x++) {
         board[z][y][x] = 0;
       }
     }
@@ -33,13 +30,14 @@ export function createEmptyBoard(): BoardState {
   return board;
 }
 
-export function setInitialPieces(board: BoardState) {
-  board[3][3][3] = Player.RED;
-  board[3][3][4] = Player.GREEN;
-  board[3][4][3] = Player.GREEN;
-  board[3][4][4] = Player.RED;
-  board[4][3][3] = Player.GREEN;
-  board[4][3][4] = Player.RED;
-  board[4][4][3] = Player.RED;
-  board[4][4][4] = Player.GREEN;
+export function setInitialPieces(board: BoardState, size: number) {
+  const mid = size / 2;
+  board[mid-1][mid-1][mid-1] = Player.RED;
+  board[mid-1][mid-1][mid]   = Player.GREEN;
+  board[mid-1][mid][mid-1]   = Player.GREEN;
+  board[mid-1][mid][mid]     = Player.RED;
+  board[mid][mid-1][mid-1]   = Player.GREEN;
+  board[mid][mid-1][mid]     = Player.RED;
+  board[mid][mid][mid-1]     = Player.RED;
+  board[mid][mid][mid]       = Player.GREEN;
 }

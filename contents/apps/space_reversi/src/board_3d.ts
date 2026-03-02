@@ -1,12 +1,13 @@
 import * as THREE from 'three';
-import { BoardState, Player, BOARD_SIZE, LAYERS, PLAYER_COLORS } from './board_common';
+import { BoardState, Player } from './board_common';
 
 export interface BoardRenderer3D {
   render(board: BoardState): void;
   resetCamera(): void;
+  dispose(): void;
 }
 
-export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3D {
+export function createBoardRenderer3D(canvas: HTMLCanvasElement, boardSize: number): BoardRenderer3D {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setSize(600, 400);
   renderer.setClearColor(0x0a0a1a);
@@ -91,26 +92,24 @@ export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3
   let previousMousePosition = { x: 0, y: 0 };
   let rotation = { x: 0, y: 0 };
 
-  function updateCamera() {
-    const distance = 18;
-    const centerX = 3.5;
-    const centerY = 3.5;
-    const centerZ = 3.5;
-    
-    camera.position.x = centerX + distance * Math.sin(rotation.x) * Math.cos(rotation.y);
-    camera.position.y = centerY + distance * Math.sin(rotation.y);
-    camera.position.z = centerZ + distance * Math.cos(rotation.x) * Math.cos(rotation.y);
-    camera.lookAt(centerX, centerY, centerZ);
-  }
+  const center = (boardSize - 1) / 2;
+  const distance = boardSize * 2.25;
 
-  canvas.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    previousMousePosition = { x: e.clientX, y: e.clientY };
-  });
+  function updateCamera() {
+    camera.position.x = center + distance * Math.sin(rotation.x) * Math.cos(rotation.y);
+    camera.position.y = center + distance * Math.sin(rotation.y);
+    camera.position.z = center + distance * Math.cos(rotation.x) * Math.cos(rotation.y);
+    camera.lookAt(center, center, center);
+  }
 
   let currentBoard: BoardState | null = null;
 
-  canvas.addEventListener('mousemove', (e) => {
+  function onMouseDown(e: MouseEvent) {
+    isDragging = true;
+    previousMousePosition = { x: e.clientX, y: e.clientY };
+  }
+
+  function onMouseMove(e: MouseEvent) {
     if (!isDragging) return;
     const deltaX = e.clientX - previousMousePosition.x;
     const deltaY = e.clientY - previousMousePosition.y;
@@ -119,9 +118,9 @@ export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3
     updateCamera();
     previousMousePosition = { x: e.clientX, y: e.clientY };
     if (currentBoard) {
-      for (let z = 0; z < LAYERS; z++) {
-        for (let y = 0; y < BOARD_SIZE; y++) {
-          for (let x = 0; x < BOARD_SIZE; x++) {
+      for (let z = 0; z < boardSize; z++) {
+        for (let y = 0; y < boardSize; y++) {
+          for (let x = 0; x < boardSize; x++) {
             const cell = currentBoard[z][y][x];
             const piece = pieces[z][y][x];
             if (cell === 0) {
@@ -135,32 +134,37 @@ export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3
       }
       renderer.render(scene, camera);
     }
-  });
+  }
 
-  canvas.addEventListener('mouseup', () => { isDragging = false; });
-  canvas.addEventListener('mouseleave', () => { isDragging = false; });
+  function onMouseUp() { isDragging = false; }
+  function onMouseLeave() { isDragging = false; }
+
+  canvas.addEventListener('mousedown', onMouseDown);
+  canvas.addEventListener('mousemove', onMouseMove);
+  canvas.addEventListener('mouseup', onMouseUp);
+  canvas.addEventListener('mouseleave', onMouseLeave);
 
   const lineMaterial = new THREE.LineBasicMaterial({ color: 0x666666, transparent: true, opacity: 0.35 });
 
   const gridGroup = new THREE.Group();
   scene.add(gridGroup);
 
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    for (let j = 0; j < BOARD_SIZE; j++) {
+  for (let i = 0; i < boardSize; i++) {
+    for (let j = 0; j < boardSize; j++) {
       const xPoints = [];
-      for (let k = 0; k < BOARD_SIZE; k++) {
+      for (let k = 0; k < boardSize; k++) {
         xPoints.push(new THREE.Vector3(k, i, j));
       }
       gridGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(xPoints), lineMaterial));
 
       const yPoints = [];
-      for (let k = 0; k < BOARD_SIZE; k++) {
+      for (let k = 0; k < boardSize; k++) {
         yPoints.push(new THREE.Vector3(i, k, j));
       }
       gridGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(yPoints), lineMaterial));
 
       const zPoints = [];
-      for (let k = 0; k < BOARD_SIZE; k++) {
+      for (let k = 0; k < boardSize; k++) {
         zPoints.push(new THREE.Vector3(i, j, k));
       }
       gridGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(zPoints), lineMaterial));
@@ -174,11 +178,11 @@ export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3
   };
 
   const pieces: THREE.Mesh[][][] = [];
-  for (let z = 0; z < LAYERS; z++) {
+  for (let z = 0; z < boardSize; z++) {
     pieces[z] = [];
-    for (let y = 0; y < BOARD_SIZE; y++) {
+    for (let y = 0; y < boardSize; y++) {
       pieces[z][y] = [];
-      for (let x = 0; x < BOARD_SIZE; x++) {
+      for (let x = 0; x < boardSize; x++) {
         const piece = new THREE.Mesh(pieceGeometry, pieceMaterials[1]);
         piece.position.set(x, y, z);
         piece.visible = false;
@@ -194,9 +198,9 @@ export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3
   return {
     render(board: BoardState) {
       currentBoard = board;
-      for (let z = 0; z < LAYERS; z++) {
-        for (let y = 0; y < BOARD_SIZE; y++) {
-          for (let x = 0; x < BOARD_SIZE; x++) {
+      for (let z = 0; z < boardSize; z++) {
+        for (let y = 0; y < boardSize; y++) {
+          for (let x = 0; x < boardSize; x++) {
             const cell = board[z][y][x];
             const piece = pieces[z][y][x];
 
@@ -217,6 +221,14 @@ export function createBoardRenderer3D(canvas: HTMLCanvasElement): BoardRenderer3
       updateCamera();
       axesGroup.quaternion.copy(camera.quaternion);
       renderer.render(scene, camera);
-    }
+    },
+
+    dispose() {
+      canvas.removeEventListener('mousedown', onMouseDown);
+      canvas.removeEventListener('mousemove', onMouseMove);
+      canvas.removeEventListener('mouseup', onMouseUp);
+      canvas.removeEventListener('mouseleave', onMouseLeave);
+      renderer.dispose();
+    },
   };
 }

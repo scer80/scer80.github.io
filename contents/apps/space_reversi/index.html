@@ -145,7 +145,13 @@
       </div>
     </div>
     <div id="controls">
-      <button id="reset-btn">Reset</button>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <select id="board-size-select" class="depth-select">
+          <option value="8" selected>8×8×8</option>
+          <option value="4">4×4×4</option>
+        </select>
+        <button id="reset-btn">Reset</button>
+      </div>
       <div class="ai-toggle">
         <input type="checkbox" id="green-ai">
         <label id="green-ai-label" class="ai-label green">User/AI</label>

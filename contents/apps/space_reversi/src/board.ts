@@ -6,14 +6,16 @@ export interface BoardRenderer {
   render(board: BoardState, currentPlayer: Player, validMoves: Set<string>): void;
   getCellFromClick(clickX: number, clickY: number): { x: number; y: number; z: number } | null;
   resetCamera(): void;
+  dispose(): void;
 }
 
 export function createBoardRenderer(
   canvas3d: HTMLCanvasElement,
-  canvas2d: HTMLCanvasElement
+  canvas2d: HTMLCanvasElement,
+  boardSize: number
 ): BoardRenderer {
-  const renderer3d = createBoardRenderer3D(canvas3d);
-  const renderer2d = createBoardRenderer2D(canvas2d);
+  const renderer3d = createBoardRenderer3D(canvas3d, boardSize);
+  const renderer2d = createBoardRenderer2D(canvas2d, boardSize);
 
   return {
     render(board: BoardState, currentPlayer: Player, validMoves: Set<string>) {
@@ -25,6 +27,10 @@ export function createBoardRenderer(
     },
     resetCamera() {
       renderer3d.resetCamera();
+    },
+    dispose() {
+      renderer3d.dispose();
+      renderer2d.dispose();
     },
   };
 }

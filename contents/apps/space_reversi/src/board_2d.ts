@@ -1,11 +1,12 @@
-import { BoardState, Player, BOARD_SIZE, LAYERS, PLAYER_COLORS } from './board_common';
+import { BoardState, Player, PLAYER_COLORS } from './board_common';
 
 export interface BoardRenderer2D {
   render(board: BoardState, currentPlayer: Player, validMoves: Set<string>): void;
   getCellFromClick(clickX: number, clickY: number): { x: number; y: number; z: number } | null;
+  dispose(): void;
 }
 
-export function createBoardRenderer2D(canvas: HTMLCanvasElement): BoardRenderer2D {
+export function createBoardRenderer2D(canvas: HTMLCanvasElement, boardSize: number): BoardRenderer2D {
   const ctx = canvas.getContext('2d')!;
 
   const padding = 10;
@@ -16,18 +17,19 @@ export function createBoardRenderer2D(canvas: HTMLCanvasElement): BoardRenderer2
 
   function resizeCanvas() {
     canvas.width = window.innerWidth;
-    cellSizeTotal = Math.floor((canvas.width - padding * (LAYERS + 1)) / (BOARD_SIZE * LAYERS));
-    canvas.height = BOARD_SIZE * cellSizeTotal + labelHeight + padding * 2;
+    const refSize = 8;
+    cellSizeTotal = Math.floor((canvas.width - padding * (refSize + 1)) / (refSize * refSize)) * (refSize / boardSize);
+    canvas.height = boardSize * cellSizeTotal + labelHeight + padding * 2;
     updateBoardLayout();
   }
 
   function updateBoardLayout() {
     boardLayout = [];
-    const boardWidth = BOARD_SIZE * cellSizeTotal;
+    const boardWidth = boardSize * cellSizeTotal;
     const startX = padding;
     const startY = padding;
 
-    for (let z = 0; z < LAYERS; z++) {
+    for (let z = 0; z < boardSize; z++) {
       boardLayout.push({
         xOffset: startX + z * (boardWidth + padding),
         yOffset: startY,
@@ -47,13 +49,13 @@ export function createBoardRenderer2D(canvas: HTMLCanvasElement): BoardRenderer2
     for (const layout of boardLayout) {
       const boardLeft = layout.xOffset;
       const boardTop = layout.yOffset + labelHeight;
-      const boardRight = boardLeft + BOARD_SIZE * cellWithGap;
-      const boardBottom = boardTop + BOARD_SIZE * cellWithGap;
+      const boardRight = boardLeft + boardSize * cellWithGap;
+      const boardBottom = boardTop + boardSize * cellWithGap;
 
       if (clickX >= boardLeft && clickX < boardRight && clickY >= boardTop && clickY < boardBottom) {
         const x = Math.floor((clickX - boardLeft) / cellWithGap);
-        const y = BOARD_SIZE - 1 - Math.floor((clickY - boardTop) / cellWithGap);
-        if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE) {
+        const y = boardSize - 1 - Math.floor((clickY - boardTop) / cellWithGap);
+        if (x >= 0 && x < boardSize && y >= 0 && y < boardSize) {
           return { x, y, z: layout.z };
         }
       }
@@ -85,21 +87,21 @@ export function createBoardRenderer2D(canvas: HTMLCanvasElement): BoardRenderer2
 
       const gridGap = Math.max(1, Math.floor(cellSizeTotal * 0.1));
       const cellSize = cellSizeTotal - gridGap;
-      const boardWidth = BOARD_SIZE * cellSizeTotal;
+      const boardWidth = boardSize * cellSizeTotal;
       const startX = padding;
       const startY = padding + labelHeight;
 
-      for (let z = 0; z < LAYERS; z++) {
+      for (let z = 0; z < boardSize; z++) {
         const xOffset = startX + z * (boardWidth + padding);
         const yOffset = startY;
 
         ctx.fillStyle = '#1a1a2e';
         ctx.fillRect(xOffset - 5, yOffset - labelHeight, boardWidth + 10, boardWidth + labelHeight + 5);
 
-        for (let y = 0; y < BOARD_SIZE; y++) {
-          for (let x = 0; x < BOARD_SIZE; x++) {
+        for (let y = 0; y < boardSize; y++) {
+          for (let x = 0; x < boardSize; x++) {
             const cx = xOffset + x * (cellSize + gridGap);
-            const cy = yOffset + (BOARD_SIZE - 1 - y) * (cellSize + gridGap);
+            const cy = yOffset + (boardSize - 1 - y) * (cellSize + gridGap);
             const cell = board[z][y][x];
             const key = `${x},${y},${z}`;
 
@@ -120,11 +122,12 @@ export function createBoardRenderer2D(canvas: HTMLCanvasElement): BoardRenderer2
       }
 
       // Draw coordinate axes
-      const headSize = Math.max(5, Math.floor(cellSizeTotal * 0.5));
-      const shortLen = Math.round(2.5 * cellSizeTotal);
-      const totalSpan = (LAYERS - 1) * (boardWidth + padding) + boardWidth;
+      const refCellSize = cellSizeTotal * boardSize / 8;
+      const headSize = Math.max(5, Math.floor(refCellSize * 0.5));
+      const shortLen = Math.round(2.5 * refCellSize);
+      const totalSpan = (boardSize - 1) * (boardWidth + padding) + boardWidth;
       const zArrowY = padding + Math.floor(labelHeight / 2);
-      const labelFont = `bold ${Math.max(9, Math.floor(cellSize * 0.75))}px Courier New`;
+      const labelFont = `bold ${Math.max(9, Math.floor(refCellSize * 0.75))}px Courier New`;
 
       ctx.font = labelFont;
       ctx.textBaseline = 'middle';
@@ -134,7 +137,7 @@ export function createBoardRenderer2D(canvas: HTMLCanvasElement): BoardRenderer2
       ctx.fillText('Z', startX + totalSpan + 5, zArrowY);
 
       const originX = startX;
-      const originY = startY + BOARD_SIZE * cellSizeTotal;
+      const originY = startY + boardSize * cellSizeTotal;
 
       drawArrow(originX, originY, originX + shortLen, originY, '#ff4444', headSize);
       ctx.fillStyle = '#ff4444';
@@ -149,6 +152,10 @@ export function createBoardRenderer2D(canvas: HTMLCanvasElement): BoardRenderer2
 
     getCellFromClick(clickX: number, clickY: number) {
       return getCellFromClickInternal(clickX, clickY);
+    },
+
+    dispose() {
+      window.removeEventListener('resize', resizeCanvas);
     },
   };
 }

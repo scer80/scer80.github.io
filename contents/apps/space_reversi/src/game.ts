@@ -1,4 +1,4 @@
-import { BoardState, Player, BOARD_SIZE, LAYERS } from './board_common';
+import { BoardState, Player } from './board_common';
 
 const DIRECTIONS: [number, number, number][] = [];
 
@@ -14,37 +14,40 @@ for (let dx = -1; dx <= 1; dx++) {
 
 export interface GameState {
   board: BoardState;
+  boardSize: number;
   currentPlayer: Player;
   validMoves: Set<string>;
   gameOver: boolean;
   winner: Player | null;
 }
 
-export function createGameState(): GameState {
+export function createGameState(boardSize: number): GameState {
   const board: BoardState = [];
-  for (let z = 0; z < LAYERS; z++) {
+  for (let z = 0; z < boardSize; z++) {
     board[z] = [];
-    for (let y = 0; y < BOARD_SIZE; y++) {
+    for (let y = 0; y < boardSize; y++) {
       board[z][y] = [];
-      for (let x = 0; x < BOARD_SIZE; x++) {
+      for (let x = 0; x < boardSize; x++) {
         board[z][y][x] = 0;
       }
     }
   }
 
-  board[3][3][3] = Player.RED;
-  board[3][3][4] = Player.GREEN;
-  board[3][4][3] = Player.GREEN;
-  board[3][4][4] = Player.RED;
-  board[4][3][3] = Player.GREEN;
-  board[4][3][4] = Player.RED;
-  board[4][4][3] = Player.RED;
-  board[4][4][4] = Player.GREEN;
+  const mid = boardSize / 2;
+  board[mid-1][mid-1][mid-1] = Player.RED;
+  board[mid-1][mid-1][mid]   = Player.GREEN;
+  board[mid-1][mid][mid-1]   = Player.GREEN;
+  board[mid-1][mid][mid]     = Player.RED;
+  board[mid][mid-1][mid-1]   = Player.GREEN;
+  board[mid][mid-1][mid]     = Player.RED;
+  board[mid][mid][mid-1]     = Player.RED;
+  board[mid][mid][mid]       = Player.GREEN;
 
-  const validMoves = getValidMoves(board, Player.GREEN);
+  const validMoves = getValidMoves(board, Player.GREEN, boardSize);
 
   return {
     board,
+    boardSize,
     currentPlayer: Player.GREEN,
     validMoves,
     gameOver: false,
@@ -52,13 +55,13 @@ export function createGameState(): GameState {
   };
 }
 
-export function getValidMoves(board: BoardState, player: Player): Set<string> {
+export function getValidMoves(board: BoardState, player: Player, boardSize: number): Set<string> {
   const moves = new Set<string>();
   const opponent = player === Player.GREEN ? Player.RED : Player.GREEN;
 
-  for (let z = 0; z < LAYERS; z++) {
-    for (let y = 0; y < BOARD_SIZE; y++) {
-      for (let x = 0; x < BOARD_SIZE; x++) {
+  for (let z = 0; z < boardSize; z++) {
+    for (let y = 0; y < boardSize; y++) {
+      for (let x = 0; x < boardSize; x++) {
         if (board[z][y][x] !== 0) continue;
 
         for (const [dx, dy, dz] of DIRECTIONS) {
@@ -67,7 +70,7 @@ export function getValidMoves(board: BoardState, player: Player): Set<string> {
           let nz = z + dz;
           let hasOpponent = false;
 
-          while (nx >= 0 && nx < BOARD_SIZE && ny >= 0 && ny < BOARD_SIZE && nz >= 0 && nz < LAYERS) {
+          while (nx >= 0 && nx < boardSize && ny >= 0 && ny < boardSize && nz >= 0 && nz < boardSize) {
             const cell = board[nz][ny][nx];
             if (cell === opponent) {
               hasOpponent = true;
@@ -91,7 +94,7 @@ export function getValidMoves(board: BoardState, player: Player): Set<string> {
   return moves;
 }
 
-function getFlippedPieces(board: BoardState, x: number, y: number, z: number, player: Player): [number, number, number][] {
+function getFlippedPieces(board: BoardState, x: number, y: number, z: number, player: Player, boardSize: number): [number, number, number][] {
   const flipped: [number, number, number][] = [];
   const opponent = player === Player.GREEN ? Player.RED : Player.GREEN;
 
@@ -101,7 +104,7 @@ function getFlippedPieces(board: BoardState, x: number, y: number, z: number, pl
     let nz = z + dz;
     const directionFlipped: [number, number, number][] = [];
 
-    while (nx >= 0 && nx < BOARD_SIZE && ny >= 0 && ny < BOARD_SIZE && nz >= 0 && nz < LAYERS) {
+    while (nx >= 0 && nx < boardSize && ny >= 0 && ny < boardSize && nz >= 0 && nz < boardSize) {
       const cell = board[nz][ny][nx];
       if (cell === opponent) {
         directionFlipped.push([nx, ny, nz]);
@@ -128,27 +131,28 @@ export function makeMove(state: GameState, x: number, y: number, z: number): boo
     return false;
   }
 
+  const { boardSize } = state;
   state.board[z][y][x] = state.currentPlayer;
 
-  const flipped = getFlippedPieces(state.board, x, y, z, state.currentPlayer);
+  const flipped = getFlippedPieces(state.board, x, y, z, state.currentPlayer, boardSize);
   for (const [fx, fy, fz] of flipped) {
     state.board[fz][fy][fx] = state.currentPlayer;
   }
 
   const nextPlayer = state.currentPlayer === Player.GREEN ? Player.RED : Player.GREEN;
-  const nextValidMoves = getValidMoves(state.board, nextPlayer);
+  const nextValidMoves = getValidMoves(state.board, nextPlayer, boardSize);
 
   if (nextValidMoves.size > 0) {
     state.currentPlayer = nextPlayer;
     state.validMoves = nextValidMoves;
   } else {
-    const currentValidMoves = getValidMoves(state.board, state.currentPlayer);
+    const currentValidMoves = getValidMoves(state.board, state.currentPlayer, boardSize);
     if (currentValidMoves.size > 0) {
       state.validMoves = currentValidMoves;
     } else {
       state.gameOver = true;
-      const greenCount = countPieces(state.board, Player.GREEN);
-      const redCount = countPieces(state.board, Player.RED);
+      const greenCount = countPieces(state.board, Player.GREEN, boardSize);
+      const redCount = countPieces(state.board, Player.RED, boardSize);
       if (greenCount > redCount) {
         state.winner = Player.GREEN;
       } else if (redCount > greenCount) {
@@ -162,11 +166,11 @@ export function makeMove(state: GameState, x: number, y: number, z: number): boo
   return true;
 }
 
-function countPieces(board: BoardState, player: Player): number {
+function countPieces(board: BoardState, player: Player, boardSize: number): number {
   let count = 0;
-  for (let z = 0; z < LAYERS; z++) {
-    for (let y = 0; y < BOARD_SIZE; y++) {
-      for (let x = 0; x < BOARD_SIZE; x++) {
+  for (let z = 0; z < boardSize; z++) {
+    for (let y = 0; y < boardSize; y++) {
+      for (let x = 0; x < boardSize; x++) {
         if (board[z][y][x] === player) {
           count++;
         }
@@ -176,66 +180,66 @@ function countPieces(board: BoardState, player: Player): number {
   return count;
 }
 
-export function getScore(board: BoardState): { green: number; red: number } {
+export function getScore(board: BoardState, boardSize: number): { green: number; red: number } {
   return {
-    green: countPieces(board, Player.GREEN),
-    red: countPieces(board, Player.RED),
+    green: countPieces(board, Player.GREEN, boardSize),
+    red: countPieces(board, Player.RED, boardSize),
   };
 }
 
-function copyBoard(board: BoardState): BoardState {
+function copyBoard(board: BoardState, boardSize: number): BoardState {
   const newBoard: BoardState = [];
-  for (let z = 0; z < LAYERS; z++) {
+  for (let z = 0; z < boardSize; z++) {
     newBoard[z] = [];
-    for (let y = 0; y < BOARD_SIZE; y++) {
+    for (let y = 0; y < boardSize; y++) {
       newBoard[z][y] = [...board[z][y]];
     }
   }
   return newBoard;
 }
 
-function applyMove(board: BoardState, x: number, y: number, z: number, player: Player): BoardState {
-  const newBoard = copyBoard(board);
+function applyMove(board: BoardState, x: number, y: number, z: number, player: Player, boardSize: number): BoardState {
+  const newBoard = copyBoard(board, boardSize);
   newBoard[z][y][x] = player;
-  
-  const flipped = getFlippedPieces(board, x, y, z, player);
+
+  const flipped = getFlippedPieces(board, x, y, z, player, boardSize);
   for (const [fx, fy, fz] of flipped) {
     newBoard[fz][fy][fx] = player;
   }
-  
+
   return newBoard;
 }
 
-function isCorner(x: number, y: number, z: number): boolean {
-  const corners = [0, BOARD_SIZE - 1];
+function isCorner(x: number, y: number, z: number, boardSize: number): boolean {
+  const corners = [0, boardSize - 1];
   return corners.includes(x) && corners.includes(y) && corners.includes(z);
 }
 
-function isEdge(x: number, y: number, z: number): boolean {
-  const edges = [0, BOARD_SIZE - 1];
+function isEdge(x: number, y: number, z: number, boardSize: number): boolean {
+  const edges = [0, boardSize - 1];
   const edgeCount = (edges.includes(x) ? 1 : 0) + (edges.includes(y) ? 1 : 0) + (edges.includes(z) ? 1 : 0);
   return edgeCount >= 2;
 }
 
-function evaluate(board: BoardState, player: Player): number {
+function evaluate(board: BoardState, player: Player, boardSize: number): number {
   const opponent = player === Player.GREEN ? Player.RED : Player.GREEN;
-  
+
   let score = 0;
-  
-  for (let z = 0; z < LAYERS; z++) {
-    for (let y = 0; y < BOARD_SIZE; y++) {
-      for (let x = 0; x < BOARD_SIZE; x++) {
+
+  for (let z = 0; z < boardSize; z++) {
+    for (let y = 0; y < boardSize; y++) {
+      for (let x = 0; x < boardSize; x++) {
         const cell = board[z][y][x];
         if (cell === 0) continue;
-        
+
         let weight = 1;
-        
-        if (isCorner(x, y, z)) {
+
+        if (isCorner(x, y, z, boardSize)) {
           weight = 100;
-        } else if (isEdge(x, y, z)) {
+        } else if (isEdge(x, y, z, boardSize)) {
           weight = 5;
         }
-        
+
         if (cell === player) {
           score += weight;
         } else {
@@ -244,11 +248,11 @@ function evaluate(board: BoardState, player: Player): number {
       }
     }
   }
-  
-  const playerMobility = getValidMoves(board, player).size;
-  const opponentMobility = getValidMoves(board, opponent).size;
+
+  const playerMobility = getValidMoves(board, player, boardSize).size;
+  const opponentMobility = getValidMoves(board, opponent, boardSize).size;
   score += (playerMobility - opponentMobility) * 2;
-  
+
   return score;
 }
 
@@ -266,20 +270,21 @@ function minimax(
   alpha: number,
   beta: number,
   isMaximizing: boolean,
-  player: Player
+  player: Player,
+  boardSize: number
 ): number {
   if (searchStopped || Date.now() - searchStartTime > searchTimeLimit) {
     searchStopped = true;
-    return evaluate(board, player);
+    return evaluate(board, player, boardSize);
   }
-  
+
   const currentPlayer = isMaximizing ? player : (player === Player.GREEN ? Player.RED : Player.GREEN);
-  const moves = getValidMoves(board, currentPlayer);
-  
+  const moves = getValidMoves(board, currentPlayer, boardSize);
+
   if (depth === 0 || moves.size === 0) {
-    return evaluate(board, player);
+    return evaluate(board, player, boardSize);
   }
-  
+
   if (isMaximizing) {
     let maxEval = -Infinity;
     for (const move of moves) {
@@ -288,8 +293,8 @@ function minimax(
         break;
       }
       const [x, y, z] = move.split(',').map(Number);
-      const newBoard = applyMove(board, x, y, z, currentPlayer);
-      const evalScore = minimax(newBoard, depth - 1, alpha, beta, false, player);
+      const newBoard = applyMove(board, x, y, z, currentPlayer, boardSize);
+      const evalScore = minimax(newBoard, depth - 1, alpha, beta, false, player, boardSize);
       maxEval = Math.max(maxEval, evalScore);
       alpha = Math.max(alpha, evalScore);
       if (beta <= alpha) break;
@@ -303,8 +308,8 @@ function minimax(
         break;
       }
       const [x, y, z] = move.split(',').map(Number);
-      const newBoard = applyMove(board, x, y, z, currentPlayer);
-      const evalScore = minimax(newBoard, depth - 1, alpha, beta, true, player);
+      const newBoard = applyMove(board, x, y, z, currentPlayer, boardSize);
+      const evalScore = minimax(newBoard, depth - 1, alpha, beta, true, player, boardSize);
       minEval = Math.min(minEval, evalScore);
       beta = Math.min(beta, evalScore);
       if (beta <= alpha) break;
@@ -313,45 +318,45 @@ function minimax(
   }
 }
 
-export function getBestMove(board: BoardState, player: Player, depth: number): { x: number; y: number; z: number } | null {
-  const moves = getValidMoves(board, player);
-  
+export function getBestMove(board: BoardState, player: Player, depth: number, boardSize: number): { x: number; y: number; z: number } | null {
+  const moves = getValidMoves(board, player, boardSize);
+
   if (moves.size === 0) {
     return null;
   }
-  
+
   if (moves.size === 1) {
     const move = Array.from(moves)[0];
     const [x, y, z] = move.split(',').map(Number);
     return { x, y, z };
   }
-  
+
   searchStartTime = Date.now();
   searchStopped = false;
-  
+
   let bestMove: string | null = null;
   let bestScore = -Infinity;
-  
+
   for (const move of moves) {
     if (searchStopped || Date.now() - searchStartTime > searchTimeLimit) {
       break;
     }
     const [x, y, z] = move.split(',').map(Number);
-    const newBoard = applyMove(board, x, y, z, player);
-    const score = minimax(newBoard, depth - 1, -Infinity, Infinity, false, player);
-    
+    const newBoard = applyMove(board, x, y, z, player, boardSize);
+    const score = minimax(newBoard, depth - 1, -Infinity, Infinity, false, player, boardSize);
+
     if (score > bestScore) {
       bestScore = score;
       bestMove = move;
     }
   }
-  
+
   if (!bestMove) {
     const move = Array.from(moves)[0];
     const [x, y, z] = move.split(',').map(Number);
     return { x, y, z };
   }
-  
+
   const [x, y, z] = bestMove.split(',').map(Number);
   return { x, y, z };
 }

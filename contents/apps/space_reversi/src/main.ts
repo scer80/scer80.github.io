@@ -1,11 +1,23 @@
-import { createBoardRenderer, Player } from './board';
+import { createBoardRenderer, Player, BoardRenderer } from './board';
 import { createGameState, makeMove, getScore, getBestMove, GameState } from './game';
 
 const canvas3d = document.getElementById('canvas3d') as HTMLCanvasElement;
 const canvas2d = document.getElementById('board2d') as HTMLCanvasElement;
+const boardSizeSelect = document.getElementById('board-size-select') as HTMLSelectElement;
 
-let gameState = createGameState();
-const renderer = createBoardRenderer(canvas3d, canvas2d);
+let gameState: GameState;
+let renderer: BoardRenderer;
+
+function initGame(boardSize: number) {
+  if (renderer) {
+    renderer.dispose();
+  }
+  gameState = createGameState(boardSize);
+  renderer = createBoardRenderer(canvas3d, canvas2d, boardSize);
+  isAiThinking = false;
+  render();
+  checkAndMakeAiMove();
+}
 
 const greenStatus = document.getElementById('green-status')!;
 const redStatus = document.getElementById('red-status')!;
@@ -16,7 +28,7 @@ let isAiThinking = false;
 
 function updateStatus() {
   if (gameState.gameOver) {
-    const score = getScore(gameState.board);
+    const score = getScore(gameState.board, gameState.boardSize);
     if (gameState.winner === Player.GREEN) {
       greenAction.textContent = 'Wins!';
       redAction.textContent = 'Loses';
@@ -78,26 +90,26 @@ canvas2d.addEventListener('click', (e) => {
 
 function checkAndMakeAiMove() {
   if (gameState.gameOver) return;
-  
+
   const isGreenAi = greenAiCheck.checked;
   const isRedAi = redAiCheck.checked;
-  
+
   const currentIsAi = (gameState.currentPlayer === Player.GREEN && isGreenAi) ||
                       (gameState.currentPlayer === Player.RED && isRedAi);
-  
+
   if (currentIsAi) {
     isAiThinking = true;
     updateStatus();
-    
+
     setTimeout(() => {
       const depthSelect = gameState.currentPlayer === Player.GREEN ? greenDepthSelect : redDepthSelect;
       const depth = parseInt(depthSelect.value);
-      const bestMove = getBestMove(gameState.board, gameState.currentPlayer, depth);
-      
+      const bestMove = getBestMove(gameState.board, gameState.currentPlayer, depth, gameState.boardSize);
+
       if (bestMove) {
         makeMove(gameState, bestMove.x, bestMove.y, bestMove.z);
       }
-      
+
       isAiThinking = false;
       render();
       checkAndMakeAiMove();
@@ -107,11 +119,11 @@ function checkAndMakeAiMove() {
 
 const resetBtn = document.getElementById('reset-btn')!;
 resetBtn.addEventListener('click', () => {
-  gameState = createGameState();
-  renderer.resetCamera();
-  isAiThinking = false;
-  render();
-  checkAndMakeAiMove();
+  initGame(parseInt(boardSizeSelect.value));
+});
+
+boardSizeSelect.addEventListener('change', () => {
+  initGame(parseInt(boardSizeSelect.value));
 });
 
 const greenAiCheck = document.getElementById('green-ai') as HTMLInputElement;
@@ -138,5 +150,4 @@ redAiCheck.addEventListener('change', () => {
 
 updateAiLabels();
 
-render();
-checkAndMakeAiMove();
+initGame(parseInt(boardSizeSelect.value));
