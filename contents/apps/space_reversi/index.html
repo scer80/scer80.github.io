@@ -109,7 +109,7 @@
     }
     .ai-label.green { color: #44ff44; }
     .ai-label.red { color: #ff4444; }
-    #depth-select {
+    .depth-select {
       padding: 4px 8px;
       font-family: 'Courier New', monospace;
       font-size: 14px;
@@ -149,16 +149,21 @@
       <div class="ai-toggle">
         <input type="checkbox" id="green-ai">
         <label id="green-ai-label" class="ai-label green">User/AI</label>
+        <select id="green-depth-select" class="depth-select">
+          <option value="1">Alpha Beta Minimax Depth 1</option>
+          <option value="2" selected>Alpha Beta Minimax Depth 2</option>
+          <option value="3">Alpha Beta Minimax Depth 3</option>
+        </select>
       </div>
       <div class="ai-toggle">
         <input type="checkbox" id="red-ai">
         <label id="red-ai-label" class="ai-label red">User/AI</label>
+        <select id="red-depth-select" class="depth-select">
+          <option value="1">Alpha Beta Minimax Depth 1</option>
+          <option value="2" selected>Alpha Beta Minimax Depth 2</option>
+          <option value="3">Alpha Beta Minimax Depth 3</option>
+        </select>
       </div>
-      <select id="depth-select">
-        <option value="1">Alpha Beta Minimax Depth 1</option>
-        <option value="2" selected>Alpha Beta Minimax Depth 2</option>
-        <option value="3">Alpha Beta Minimax Depth 3</option>
-      </select>
     </div>
     <canvas id="canvas3d"></canvas>
     <canvas id="board2d"></canvas>

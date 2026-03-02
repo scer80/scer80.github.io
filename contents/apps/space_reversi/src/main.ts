@@ -90,6 +90,7 @@ function checkAndMakeAiMove() {
     updateStatus();
     
     setTimeout(() => {
+      const depthSelect = gameState.currentPlayer === Player.GREEN ? greenDepthSelect : redDepthSelect;
       const depth = parseInt(depthSelect.value);
       const bestMove = getBestMove(gameState.board, gameState.currentPlayer, depth);
       
@@ -117,7 +118,8 @@ const greenAiCheck = document.getElementById('green-ai') as HTMLInputElement;
 const redAiCheck = document.getElementById('red-ai') as HTMLInputElement;
 const greenAiLabel = document.getElementById('green-ai-label')!;
 const redAiLabel = document.getElementById('red-ai-label')!;
-const depthSelect = document.getElementById('depth-select') as HTMLSelectElement;
+const greenDepthSelect = document.getElementById('green-depth-select') as HTMLSelectElement;
+const redDepthSelect = document.getElementById('red-depth-select') as HTMLSelectElement;
 
 function updateAiLabels() {
   greenAiLabel.textContent = greenAiCheck.checked ? 'AI' : 'User';
